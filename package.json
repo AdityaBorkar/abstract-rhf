@@ -1,0 +1,14 @@
+{
+  "name": "@forms/monorepo",
+  "private": true,
+  "workspaces": [
+    "examples/*",
+    "package",
+    "docs"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5",
+    "@biomejs/biome": "^1.9.4"
+  }
+}
