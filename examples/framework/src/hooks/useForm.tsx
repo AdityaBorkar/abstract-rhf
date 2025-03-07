@@ -4,34 +4,29 @@ import {
 	useFormGroup as _useFormGroup,
 } from "abstract-rhf";
 import { schemaResolver } from "abstract-rhf/resolvers/zod";
-import { persistenceResolver } from "abstract-rhf/resolvers/local-storage";
 
 // import { schemaResolver } from "forms/resolvers/standard-schema";
-// import { persistenceResolver } from "forms/resolvers/jotai";
+// import { persistenceResolver } from "abstract-rhf/resolvers/local-storage";
 
-export function useForm(props: Parameters<typeof _useForm>[0]) {
+export function useForm(props: {
+	schema: Parameters<typeof _useForm>[0]["schema"];
+	onSubmit: Parameters<typeof _useForm>[0]["onSubmit"];
+	defaultValues?: Parameters<typeof _useForm>[0]["defaultValues"];
+}) {
+	// TODO: Use integrated example for verySimple form case.
+	// TODO: Use this example for `components` case only.
 	return _useForm({
 		...props,
-		// schemaResolver,
+		schemaResolver,
 		submitResolver,
-		// persistenceResolver,
-		// components: {
-		// 	text: TextInput
-		// 	...
-		// },
 	});
 }
 
 // export function useFormGroups(props: Parameters<typeof _useFormGroup>[0]) {
 // 	return _useFormGroup({
+// 		...props,
 // 		schemaResolver,
 // 		submitResolver,
-// 		persistenceResolver,
-// 		// components: {
-// 		// 	text: TextInput
-// 		// 	...
-// 		// },
-// 		...props,
 // 	});
 // }
 
@@ -46,5 +41,4 @@ async function submitResolver(response: Promise<unknown>, error: unknown) {
 	return;
 }
 
-// TODO - Make a custom persistenceResolver() that uses jotai and react-hook-form
-// TODO: Async validation like GSTIN search
+// TODO - Make a custom persistenceResolver() that uses jotai and react-hook-form integration

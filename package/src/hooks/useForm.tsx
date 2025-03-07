@@ -3,6 +3,7 @@ import type { ZodSchema } from "zod";
 
 import type { DefaultValues } from "react-hook-form";
 import type { ZodSchemaResolver } from "../resolvers/zod";
+import type { FormContextAdditionalType } from "../hooks/useFormContext";
 
 import { useState, useTransition } from "react";
 import { FormProvider, useForm as useReactHookForm } from "react-hook-form";
@@ -23,26 +24,37 @@ interface useFormProps<
 		error: unknown,
 	) => Promise<void>,
 > {
-	schemaResolver: SchemaResolver["resolver"];
 	submitResolver: SubmitResolver;
+	schemaResolver: SchemaResolver["resolver"];
 	// persistenceResolver: PersistenceResolver;
-	uid: string;
 	schema: Schema;
-	defaultValues:
+	defaultValues?:
 		| ((payload?: unknown) => Promise<Partial<SchemaResolver["data"]>>)
 		| DefaultValues<Partial<SchemaResolver["data"]>>
 		| undefined;
-	debug?: boolean;
-	persist?: boolean;
-	softErrors?: boolean;
+	// uid: string;
+	// debug?: boolean;
+	// persist?: boolean;
+	// softErrors?: boolean;
 	onSubmit: onSubmitType;
+	// components: {
+	// 	text: TextInput
+	// 	...
+	// },
+}
+
+interface FormProps extends React.ComponentProps<"form"> {
+	children: React.ReactNode;
 }
 
 export function useForm<
 	Schema extends ZodSchema, // ! DEPENDENT ON ZOD
 	SchemaResolver extends ZodSchemaResolver<Schema>,
 	onSubmitType extends (data: SchemaResolver["data"]) => Promise<unknown>,
-	SubmitResolver extends (response: ReturnType<onSubmitType>) => Promise<void>,
+	SubmitResolver extends (
+		response: ReturnType<onSubmitType>,
+		error: unknown,
+	) => Promise<void>,
 >({
 	onSubmit,
 	defaultValues,
@@ -50,11 +62,13 @@ export function useForm<
 	schemaResolver,
 	submitResolver,
 	// persistenceResolver,
-	uid,
-	debug,
-	persist,
-	softErrors,
+	// uid,
+	// debug,
+	// persist,
+	// softErrors,
 }: useFormProps<Schema, SchemaResolver, onSubmitType, SubmitResolver>) {
+	if (!schemaResolver) throw new Error("schemaResolver is required");
+
 	const [isPending, startTransition] = useTransition();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -63,14 +77,25 @@ export function useForm<
 		resolver: schemaResolver(schema),
 	});
 
-	function Form({ children }: { children: React.ReactNode }) {
+	function Form({ children, ...props }: FormProps) {
 		// TODO: Persistence
 
-		async function getFieldProperties(name: SchemaResolver["fieldNameEnum"]) {
-			return formMethods.register(name);
-		}
+		// TODO: Memoize the functions
 
-		async function submitHandler(data: SchemaResolver["data"]) {
+		// ! SchemaResolver["fieldNameEnum"]
+		const getFieldProperties = ((name: "valid" | "aditya") => {
+			return formMethods.register(name); // !
+		}) satisfies FormContextAdditionalType["getFieldProperties"];
+
+		const getFieldError = ((name: SchemaResolver["fieldNameEnum"]) => {
+			return formMethods.formState.errors[name]?.message;
+		}) satisfies FormContextAdditionalType["getFieldError"];
+
+		const getFieldMetadata = ((name: SchemaResolver["fieldNameEnum"]) => {
+			return { label: "Hello" }; // !
+		}) satisfies FormContextAdditionalType["getFieldMetadata"];
+
+		const submitHandler = async (data: SchemaResolver["data"]) => {
 			startTransition(async () => {
 				setIsSubmitting(true);
 				const response = await onSubmit(data);
@@ -81,17 +106,23 @@ export function useForm<
 					setIsSubmitting(false);
 				});
 			});
-		}
+		};
 
 		return (
-			// @ts-expect-error `getFieldProperties` is not typed
-			<FormProvider {...formMethods} getFieldProperties={getFieldProperties}>
-				<form onSubmit={formMethods.handleSubmit(submitHandler)}>
+			<FormProvider
+				{...formMethods}
+				{...{
+					getFieldProperties,
+					getFieldError,
+					getFieldMetadata,
+				}}
+			>
+				<form onSubmit={formMethods.handleSubmit(submitHandler)} {...props}>
 					{children}
 				</form>
 			</FormProvider>
 		);
 	}
 
-	return { Form, isSubmitting };
+	return { Form, isSubmitting, ...formMethods };
 }

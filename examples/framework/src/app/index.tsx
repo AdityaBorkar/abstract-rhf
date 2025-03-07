@@ -6,13 +6,13 @@
  */
 
 import { createRoot } from "react-dom/client";
-import { App } from "./home/index";
+import SimpleForm from "./simple-form/index";
 
 import "./index.css";
 
 function start() {
 	const root = createRoot(document.getElementById("root")!);
-	root.render(<App />);
+	root.render(<SimpleForm />);
 }
 
 if (document.readyState === "loading") {
