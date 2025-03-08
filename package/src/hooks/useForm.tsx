@@ -1,5 +1,5 @@
 // TODO: Remove the below line
-import type { ZodSchema } from "zod";
+import type { infer, TypeOf, z, ZodSchema } from "zod";
 
 import type { DefaultValues } from "react-hook-form";
 import type { ZodSchemaResolver } from "../resolvers/zod";
@@ -25,7 +25,7 @@ interface useFormProps<
 	) => Promise<void>,
 > {
 	submitResolver: SubmitResolver;
-	schemaResolver: SchemaResolver["resolver"];
+	schemaResolver: SchemaResolver["functions"];
 	// persistenceResolver: PersistenceResolver;
 	schema: Schema;
 	defaultValues?:
@@ -74,7 +74,7 @@ export function useForm<
 
 	const formMethods = useReactHookForm({
 		defaultValues,
-		resolver: schemaResolver(schema),
+		resolver: schemaResolver.resolver(schema),
 	});
 
 	function Form({ children, ...props }: FormProps) {
@@ -82,25 +82,44 @@ export function useForm<
 
 		// TODO: Memoize the functions
 
-		// ! SchemaResolver["fieldNameEnum"]
-		const getFieldProperties = ((name: "valid" | "aditya") => {
+		const getFieldProperties = ((name: SchemaResolver["fieldNameEnum"]) => {
+			if (!name) throw new Error("Field name is required");
 			return formMethods.register(name); // !
-		}) satisfies FormContextAdditionalType["getFieldProperties"];
+		}) satisfies FormContextAdditionalType<
+			SchemaResolver["fieldNameEnum"]
+		>["getFieldProperties"];
 
 		const getFieldError = ((name: SchemaResolver["fieldNameEnum"]) => {
+			if (!name) throw new Error("Field name is required");
 			return formMethods.formState.errors[name]?.message;
-		}) satisfies FormContextAdditionalType["getFieldError"];
+		}) satisfies FormContextAdditionalType<
+			SchemaResolver["fieldNameEnum"]
+		>["getFieldError"];
 
 		const getFieldMetadata = ((name: SchemaResolver["fieldNameEnum"]) => {
+			if (!name) throw new Error("Field name is required");
 			return { label: "Hello" }; // !
-		}) satisfies FormContextAdditionalType["getFieldMetadata"];
+		}) satisfies FormContextAdditionalType<
+			SchemaResolver["fieldNameEnum"]
+		>["getFieldMetadata"];
 
 		const submitHandler = async (data: SchemaResolver["data"]) => {
 			startTransition(async () => {
 				setIsSubmitting(true);
-				const response = await onSubmit(data);
+
+				let response = undefined;
+				let error = undefined;
+				let success = false;
+				try {
+					response = await onSubmit(data);
+					success = true;
+				} catch (err) {
+					error = err;
+					success = false;
+				}
+
 				startTransition(async () => {
-					await submitResolver(response as ReturnType<onSubmitType>);
+					await submitResolver(response as ReturnType<onSubmitType>, error);
 				});
 				startTransition(() => {
 					setIsSubmitting(false);
@@ -124,5 +143,11 @@ export function useForm<
 		);
 	}
 
-	return { Form, isSubmitting, ...formMethods };
+	const field = schemaResolver.getFieldNameEnum(
+		schema,
+	) as unknown as z.infer<Schema>;
+
+	const Component = {};
+
+	return { Form, isSubmitting, field, Component, ...formMethods };
 }
