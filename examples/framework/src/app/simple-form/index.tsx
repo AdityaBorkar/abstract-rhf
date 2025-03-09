@@ -18,6 +18,7 @@ export default function SimpleForm() {
 		endpoint: "hello",
 	};
 	console.log({ field });
+
 	// field.
 
 	// Fully type-safe
