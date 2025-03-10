@@ -1,6 +1,7 @@
 // TODO: Remove the below line
-import type { infer, TypeOf, z, ZodSchema } from "zod";
+import type { z, ZodTypeAny } from "zod";
 
+import type { ComponentProps } from "react";
 import type { DefaultValues } from "react-hook-form";
 import type { ZodSchemaResolver } from "../resolvers/zod";
 import type { FormContextAdditionalType } from "../hooks/useFormContext";
@@ -16,7 +17,7 @@ import { FormProvider, useForm as useReactHookForm } from "react-hook-form";
  * @param defaultValues - Default values for form fields
  */
 interface useFormProps<
-	Schema extends ZodSchema, // ! DEPENDENT ON ZOD
+	Schema extends ZodTypeAny, // ! DEPENDENT ON ZOD
 	SchemaResolver extends ZodSchemaResolver<Schema>,
 	onSubmitType extends (data: SchemaResolver["data"]) => Promise<unknown>,
 	SubmitResolver extends (
@@ -43,12 +44,12 @@ interface useFormProps<
 	// },
 }
 
-interface FormProps extends React.ComponentProps<"form"> {
+interface FormProps extends ComponentProps<"form"> {
 	children: React.ReactNode;
 }
 
 export function useForm<
-	Schema extends ZodSchema, // ! DEPENDENT ON ZOD
+	Schema extends ZodTypeAny,
 	SchemaResolver extends ZodSchemaResolver<Schema>,
 	onSubmitType extends (data: SchemaResolver["data"]) => Promise<unknown>,
 	SubmitResolver extends (
@@ -56,9 +57,9 @@ export function useForm<
 		error: unknown,
 	) => Promise<void>,
 >({
-	onSubmit,
-	defaultValues,
 	schema,
+	// onSubmit,
+	defaultValues,
 	schemaResolver,
 	submitResolver,
 	// persistenceResolver,
@@ -66,7 +67,25 @@ export function useForm<
 	// debug,
 	// persist,
 	// softErrors,
-}: useFormProps<Schema, SchemaResolver, onSubmitType, SubmitResolver>) {
+}: {
+	schema: Schema;
+	submitResolver: SubmitResolver;
+	schemaResolver: SchemaResolver["functions"];
+	// persistenceResolver: PersistenceResolver;
+	defaultValues?:
+		| ((payload?: unknown) => Promise<Partial<SchemaResolver["data"]>>)
+		| DefaultValues<Partial<SchemaResolver["data"]>>
+		| undefined;
+	uid: string;
+	debug?: boolean;
+	persist?: boolean;
+	softErrors?: boolean;
+	onSubmit: onSubmitType;
+	// components: {
+	// 	text: TextInput
+	// 	...
+	// },
+}) {
 	if (!schemaResolver) throw new Error("schemaResolver is required");
 
 	const [isPending, startTransition] = useTransition();

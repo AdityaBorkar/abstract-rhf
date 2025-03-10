@@ -3,7 +3,7 @@ import type { z, ZodTypeAny } from "zod";
 import { ZodObject } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-export interface ZodSchemaResolver<Schema extends z.ZodSchema> {
+export interface ZodSchemaResolver<Schema extends ZodTypeAny> {
 	data: z.infer<Schema>;
 	fieldNameEnum: string; // TODO: Derive from schema
 	functions: {

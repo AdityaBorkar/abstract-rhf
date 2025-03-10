@@ -2,24 +2,26 @@ import { processForm } from "@/actions/processForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useForm } from "@/hooks/useForm";
 import { simpleSchema } from "@/schemas/simple";
 import { ErrorText } from "@/components/ui/form-error";
 
-import type { z } from "zod";
+// import { useForm } from "@/hooks/useForm";
+import { useForm } from "abstract-rhf";
+import { schemaResolver } from "abstract-rhf/resolvers/zod";
+
+import { z } from "zod";
 
 export default function SimpleForm() {
+	// const { Form, isSubmitting, field } = useForm({
+	// 	schema: simpleSchema,
+	// 	onSubmit: processForm,
+	// });
 	const { Form, isSubmitting, field } = useForm({
 		schema: simpleSchema,
 		onSubmit: processForm,
+		schemaResolver,
+		submitResolver,
 	});
-
-	const x: z.infer<typeof field> = {
-		endpoint: "hello",
-	};
-	console.log({ field });
-
-	// field.
 
 	// Fully type-safe
 	// TODO: Throw errors if fieldNames are not found in the schema
@@ -52,6 +54,17 @@ export default function SimpleForm() {
 			</div>
 		</div>
 	);
+}
+
+async function submitResolver(response: Promise<unknown>, error: unknown) {
+	if (error) throw error;
+
+	console.log({ response });
+	const result = await response.data;
+	if (result.status === "success") toast.success(result.toast);
+	else toast.error(result.toast);
+
+	return;
 }
 
 // TODO: How to do code splitting
