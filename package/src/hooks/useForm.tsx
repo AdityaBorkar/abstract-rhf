@@ -69,9 +69,10 @@ export function useForm<
 	// softErrors,
 }: {
 	schema: Schema;
+	onSubmit: onSubmitType;
 	submitResolver: SubmitResolver;
-	schemaResolver: SchemaResolver["functions"];
 	// persistenceResolver: PersistenceResolver;
+	schemaResolver: SchemaResolver["functions"];
 	defaultValues?:
 		| ((payload?: unknown) => Promise<Partial<SchemaResolver["data"]>>)
 		| DefaultValues<Partial<SchemaResolver["data"]>>
@@ -80,7 +81,7 @@ export function useForm<
 	debug?: boolean;
 	persist?: boolean;
 	softErrors?: boolean;
-	onSubmit: onSubmitType;
+	progressiveEnhancements?: boolean;
 	// components: {
 	// 	text: TextInput
 	// 	...
@@ -117,7 +118,8 @@ export function useForm<
 
 		const getFieldMetadata = ((name: SchemaResolver["fieldNameEnum"]) => {
 			if (!name) throw new Error("Field name is required");
-			return { label: "Hello" }; // !
+			const label = schema.shape[name].description;
+			return { label };
 		}) satisfies FormContextAdditionalType<
 			SchemaResolver["fieldNameEnum"]
 		>["getFieldMetadata"];
@@ -162,11 +164,9 @@ export function useForm<
 		);
 	}
 
-	const field = schemaResolver.getFieldNameEnum(
-		schema,
-	) as unknown as z.infer<Schema>;
+	const field = schemaResolver.getFieldNameEnum(schema);
 
-	const Component = {};
+	const FieldComponent = {};
 
-	return { Form, isSubmitting, field, Component, ...formMethods };
+	return { Form, isSubmitting, field, FieldComponent, ...formMethods };
 }

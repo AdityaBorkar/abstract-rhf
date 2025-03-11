@@ -1,3 +1,7 @@
+import { useForm } from "abstract-rhf";
+import { schemaResolver } from "abstract-rhf/resolvers/zod";
+import { toast } from "sonner";
+
 import { processForm } from "@/actions/processForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -5,27 +9,29 @@ import { Label } from "@/components/ui/label";
 import { simpleSchema } from "@/schemas/simple";
 import { ErrorText } from "@/components/ui/form-error";
 
-// import { useForm } from "@/hooks/useForm";
-import { useForm } from "abstract-rhf";
-import { schemaResolver } from "abstract-rhf/resolvers/zod";
-
-import { z } from "zod";
+// const components = {
+// 	"text-input": Input,
+// 	"number-input": Input,
+// 	// "select-input": { wrapper: Select, option: Option },
+// };
 
 export default function SimpleForm() {
-	// const { Form, isSubmitting, field } = useForm({
-	// 	schema: simpleSchema,
-	// 	onSubmit: processForm,
-	// });
-	const { Form, isSubmitting, field } = useForm({
+	const { Form, isSubmitting, field, FieldComponent } = useForm({
 		schema: simpleSchema,
 		onSubmit: processForm,
 		schemaResolver,
 		submitResolver,
+		// components,
 	});
 
 	// Fully type-safe
 	// TODO: Throw errors if fieldNames are not found in the schema
 	// TODO: Async validation like GSTIN search
+
+	// Documentation in next.js! because we are using react.
+	// Option to turn on DEVTOOLS, Code in the side, integrated with shadcn/registry
+	// Make a codesandbox for each  type of form in BUN.
+	// Write a custom prompt in Cursor for each form
 
 	return (
 		<div className="max-w-7xl mx-auto p-8 text-center relative z-10">
@@ -33,6 +39,7 @@ export default function SimpleForm() {
 				<Form className="">
 					{/* <Field name="endpoint" component={<Input />} /> */}
 					{/* <Field component="input" name="endpoint" {...params} /> */}
+
 					{/* <select
 						name="method"
 						className="bg-[#fbf0df] text-[#1a1a1a] py-1.5 px-3 rounded-lg font-bold text-sm min-w-[0px] appearance-none cursor-pointer hover:bg-[#f3d5a3] transition-colors duration-100"
@@ -44,11 +51,15 @@ export default function SimpleForm() {
 							PUT
 						</option>
 					</select> */}
-					<Label forName={field.endpoint} />
+
+					<div className="my-2 flex flex-row justify-between">
+						<Label forName={field.endpoint} />
+						<ErrorText forName="endpoint" />
+					</div>
 					<Input name="endpoint" placeholder="/api/hello" />
-					<ErrorText forName="endpoint" />
 
 					<Button type="submit" disabled={isSubmitting}>
+						{/* {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />} */}
 						{isSubmitting ? "Sending..." : "Send"}
 					</Button>
 				</Form>

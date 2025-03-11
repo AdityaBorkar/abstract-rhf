@@ -6,12 +6,13 @@
  */
 
 import { createRoot } from "react-dom/client";
-import SimpleForm from "./simple-form/index";
+import SimpleForm from "./reusable-form/index";
 
 import "./index.css";
 
 function start() {
 	const root = createRoot(document.getElementById("root")!);
+	// TODO: Add a router here
 	root.render(<SimpleForm />);
 }
 

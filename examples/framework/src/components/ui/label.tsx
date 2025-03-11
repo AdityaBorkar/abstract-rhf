@@ -11,12 +11,13 @@ function Label(
 		...props
 	}: React.ComponentProps<typeof LabelPrimitive.Root> & { forName?: string }, // DIFF
 ) {
-	const { getFieldMetadata } = useFormContext(); // DIFF
+	// DIFF START
+	const { getFieldMetadata } = useFormContext();
 	if (forName) {
-		// DIFF
-		const { label } = getFieldMetadata(forName); // DIFF
-		props.children = label; // DIFF
-	} // DIFF
+		const { label } = getFieldMetadata(forName);
+		props.children = label;
+	}
+	// DIFF END
 	return (
 		<LabelPrimitive.Root
 			data-slot="label"
