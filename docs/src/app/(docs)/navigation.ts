@@ -2,85 +2,128 @@ import { PiBookOpen, PiCodeBlock, PiFile } from "react-icons/pi";
 
 const examples = [
 	{
-		href: "/examples/simple",
-		label: "Simple Form",
+		label: "Simple",
+		items: [
+			{
+				href: "/examples/simple",
+				label: "Simple Form",
+			},
+			{
+				href: "/examples/reusable",
+				label: "Reusable Form",
+			},
+		],
 	},
 	{
-		href: "/examples/reusable",
-		label: "Reusable Form",
-	},
-	{
-		href: "/examples/complex",
-		label: "Complex Form",
-	},
-	{
-		href: "/examples/conditional",
-		label: "Conditional Form",
+		label: "Complex",
+		items: [
+			{
+				href: "/examples/complex",
+				label: "Complex Form",
+			},
+			{
+				href: "/examples/conditional",
+				label: "Conditional Form",
+			},
+		],
 	},
 ];
 
 const docs = [
 	{
-		href: "/introduction",
-		label: "Introduction",
-	},
-	{
-		href: "/getting-started",
 		label: "Getting Started",
-		// Choose your tools
-		// Create Schema
-		// Register Fields
-		// Reset adn Submit Button
+		items: [
+			{
+				href: "/introduction",
+				label: "Introduction",
+			},
+			{
+				href: "/getting-started",
+				label: "Getting Started",
+			},
+		],
 	},
 	{
-		href: "/default-values",
-		label: "Default Values",
-		// https://www.react-hook-form.com/faqs/#Howtoinitializeformvalues
+		label: "Basics",
+		items: [
+			{
+				href: "/default-values",
+				label: "Default Values",
+				// https://www.react-hook-form.com/faqs/#Howtoinitializeformvalues
+			},
+			{
+				href: "/persisting-data",
+				label: "Persisting Data",
+			},
+			{
+				href: "/error-handling",
+				label: "Error Handling",
+			},
+			{
+				href: "/react-ref-id",
+				label: "React Ref & Id",
+			},
+		],
 	},
 	{
-		href: "/react-ref-id",
-		label: "React Ref & Id",
+		label: "Components",
+		items: [
+			{
+				href: "/shadcn",
+				label: "ShadCN Components",
+			},
+			{
+				href: "/components",
+				label: "Component Library",
+			},
+			{
+				href: "/controlled-inputs",
+				label: "Controlled Inputs 🐤",
+			},
+		],
 	},
 	{
-		href: "/shadcn",
-		label: "ShadCN Components",
+		label: "Advanced",
+		items: [
+			{
+				href: "/wizard",
+				label: "Wizard / Funnel Forms",
+			},
+			{
+				href: "/accessibility",
+				label: "Accessibility",
+				// https://www.react-hook-form.com/faqs/#Howtocreateanaccessibleinputerrorandmessage
+			},
+			{
+				href: "/testing",
+				label: "Testing Forms",
+			},
+		],
 	},
 	{
-		href: "/components",
-		label: "Component Library",
+		label: "Misc.",
+		items: [
+			{
+				href: "/react-native",
+				label: "React Native 🐤",
+			},
+			{
+				href: "/cursor-rules",
+				label: "Cursor Rules 🐤",
+			},
+		],
 	},
+];
+
+const api = [
 	{
-		href: "/controlled-inputs",
-		label: "Controlled Inputs (Soon)",
-	},
-	{
-		href: "/persisting-data",
-		label: "Persisting Data",
-	},
-	{
-		href: "/error-handling",
-		label: "Error Handling",
-	},
-	{
-		href: "/wizard",
-		label: "Wizard / Funnel Forms",
-	},
-	{
-		href: "/accessibility",
-		label: "Accessibility",
-		// https://www.react-hook-form.com/faqs/#Howtocreateanaccessibleinputerrorandmessage
-	},
-	{
-		href: "/testing",
-		label: "Testing Forms",
-	},
-	{
-		href: "/react-native",
-		label: "React Native (Coming Soon)",
-	},
-	{
-		href: "/cursor-rules",
-		label: "Cursor Rules",
+		label: "API Reference",
+		items: [
+			{
+				href: "/api/useForm",
+				label: "useForm",
+			},
+		],
 	},
 ];
 
@@ -95,7 +138,7 @@ export const sections = [
 		icon: PiBookOpen,
 		basePath: "api",
 		label: "API Reference",
-		items: [],
+		items: api,
 	},
 	{
 		icon: PiCodeBlock,
@@ -104,3 +147,11 @@ export const sections = [
 		items: examples,
 	},
 ];
+
+// Choose your tools
+// Create Schema
+// Register Fields
+// Reset and Submit Button
+
+// How to use random button
+// How to use AI button

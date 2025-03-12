@@ -1,0 +1,47 @@
+# Default Values
+
+Learn how to initialize your forms with default values in @forms.
+
+## Basic Default Values
+
+```tsx
+const form = useForm({
+  defaultValues: {
+    firstName: "",
+    email: "",
+    preferences: {
+      newsletter: false,
+      marketing: true
+    }
+  }
+});
+```
+
+## Async Default Values
+
+You can also load default values asynchronously:
+
+```tsx
+const form = useForm({
+  defaultValues: async () => {
+    const response = await fetch('/api/user');
+    return response.json();
+  }
+});
+```
+
+## Reset with New Values
+
+```tsx
+// Reset form with new values
+form.reset({
+  firstName: "John",
+  email: "john@example.com"
+});
+```
+
+## Best Practices
+
+- Always define defaultValues for all form fields
+- Use TypeScript for type-safe default values
+- Consider using async defaultValues for data from APIs 

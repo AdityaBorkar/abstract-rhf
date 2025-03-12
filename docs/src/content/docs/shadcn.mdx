@@ -1,0 +1,62 @@
+# ShadCN Components
+
+Learn how to use ShadCN UI components with @forms.
+
+## Installation
+
+First, ensure you have ShadCN UI installed:
+
+```bash
+npx shadcn-ui@latest init
+```
+
+## Basic Usage
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useForm } from "@forms";
+
+function ShadcnForm() {
+  const form = useForm();
+
+  return (
+    <form>
+      <Input {...form.register("email")} />
+      <Button type="submit">Submit</Button>
+    </form>
+  );
+}
+```
+
+## Form Components
+
+@forms provides pre-built wrappers for ShadCN components:
+
+```tsx
+import { Form, FormField, FormItem, FormLabel, FormMessage } from "@forms/shadcn";
+
+function TypedForm() {
+  const form = useForm();
+
+  return (
+    <Form {...form}>
+      <FormField
+        control={form.control}
+        name="username"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Username</FormLabel>
+            <Input {...field} />
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </Form>
+  );
+}
+```
+
+## Styling
+
+All ShadCN components maintain their original styling capabilities while working seamlessly with @forms. 

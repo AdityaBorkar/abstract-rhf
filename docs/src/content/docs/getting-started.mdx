@@ -1,0 +1,42 @@
+# Getting Started
+
+## Installation
+
+```bash
+npm install @forms
+# or
+yarn add @forms
+# or
+pnpm add @forms
+```
+
+## Basic Usage
+
+Here's a simple example of how to create a form:
+
+```tsx
+import { useForm } from "@forms";
+
+function MyForm() {
+  const form = useForm({
+    defaultValues: {
+      username: "",
+      email: "",
+    },
+  });
+
+  return (
+    <form onSubmit={form.handleSubmit((data) => console.log(data))}>
+      <input {...form.register("username")} />
+      <input {...form.register("email")} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+## Next Steps
+
+- Learn about [Default Values](/default-values)
+- Explore [ShadCN Components](/shadcn)
+- Check out our [Examples](/examples/simple) 

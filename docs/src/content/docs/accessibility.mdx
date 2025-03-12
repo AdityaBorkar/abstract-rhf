@@ -1,0 +1,105 @@
+# Accessibility
+
+Learn how to create accessible forms with @forms.
+
+## Basic Accessibility Features
+
+```tsx
+function AccessibleForm() {
+  const form = useForm();
+
+  return (
+    <form>
+      <div role="group" aria-labelledby="personal-info">
+        <h2 id="personal-info">Personal Information</h2>
+        
+        <label htmlFor={form.ids.name}>Name</label>
+        <input
+          id={form.ids.name}
+          {...form.register("name")}
+          aria-describedby="name-error"
+        />
+        {form.errors.name && (
+          <span id="name-error" role="alert">
+            {form.errors.name.message}
+          </span>
+        )}
+      </div>
+    </form>
+  );
+}
+```
+
+## Error Announcements
+
+```tsx
+import { useAnnouncer } from "@forms/a11y";
+
+function FormWithAnnouncements() {
+  const form = useForm();
+  const announce = useAnnouncer();
+
+  const onError = () => {
+    announce("Form submission failed. Please check the errors below.");
+  };
+
+  return (
+    <form onSubmit={form.handleSubmit(onSubmit, onError)}>
+      {/* form fields */}
+    </form>
+  );
+}
+```
+
+## Keyboard Navigation
+
+```tsx
+function KeyboardNavigableForm() {
+  const form = useForm();
+
+  return (
+    <form>
+      <div role="tablist">
+        <button
+          role="tab"
+          tabIndex={0}
+          aria-selected={currentTab === 0}
+          onKeyDown={handleKeyNav}
+        >
+          Tab 1
+        </button>
+      </div>
+      
+      <fieldset>
+        <legend>Form Section</legend>
+        <input {...form.register("field")} />
+      </fieldset>
+    </form>
+  );
+}
+```
+
+## ARIA Labels and Descriptions
+
+```tsx
+function AriaForm() {
+  const form = useForm();
+
+  return (
+    <form aria-label="Registration Form">
+      <input
+        {...form.register("email")}
+        aria-required="true"
+        aria-invalid={!!form.errors.email}
+        aria-describedby="email-hint email-error"
+      />
+      <span id="email-hint">Enter your email address</span>
+      {form.errors.email && (
+        <span id="email-error" role="alert">
+          {form.errors.email.message}
+        </span>
+      )}
+    </form>
+  );
+}
+``` 

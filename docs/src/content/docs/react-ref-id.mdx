@@ -1,0 +1,66 @@
+# React Ref & Id
+
+Learn how to work with refs and IDs in @forms.
+
+## Using Refs
+
+```tsx
+import { useForm } from "@forms";
+import { useRef } from "react";
+
+function FormWithRefs() {
+  const inputRef = useRef(null);
+  const form = useForm();
+
+  return (
+    <form>
+      <input {...form.register("field", { ref: inputRef })} />
+    </form>
+  );
+}
+```
+
+## Automatic ID Generation
+
+@forms automatically generates unique IDs for form fields:
+
+```tsx
+function AutoIdForm() {
+  const form = useForm();
+
+  return (
+    <form>
+      <label htmlFor={form.ids.email}>Email</label>
+      <input id={form.ids.email} {...form.register("email")} />
+    </form>
+  );
+}
+```
+
+## Custom ID Prefixes
+
+```tsx
+const form = useForm({
+  idPrefix: "my-form"
+});
+```
+
+## Working with Multiple Forms
+
+```tsx
+function MultipleFormsExample() {
+  const form1 = useForm({ idPrefix: "form1" });
+  const form2 = useForm({ idPrefix: "form2" });
+
+  return (
+    <>
+      <form>
+        <input id={form1.ids.name} {...form1.register("name")} />
+      </form>
+      <form>
+        <input id={form2.ids.name} {...form2.register("name")} />
+      </form>
+    </>
+  );
+}
+``` 

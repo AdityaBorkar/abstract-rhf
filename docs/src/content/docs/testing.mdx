@@ -1,0 +1,92 @@
+# Testing Forms
+
+Learn how to test your forms built with @forms.
+
+## Unit Testing
+
+```tsx
+import { render, screen, fireEvent } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
+describe("LoginForm", () => {
+  it("submits with valid data", async () => {
+    const onSubmit = jest.fn();
+    render(<LoginForm onSubmit={onSubmit} />);
+
+    await userEvent.type(
+      screen.getByLabelText(/email/i),
+      "test@example.com"
+    );
+    await userEvent.type(
+      screen.getByLabelText(/password/i),
+      "password123"
+    );
+    
+    await userEvent.click(screen.getByRole("button", { name: /submit/i }));
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      email: "test@example.com",
+      password: "password123"
+    });
+  });
+});
+```
+
+## Integration Testing
+
+```tsx
+import { renderHook } from "@testing-library/react-hooks";
+import { useForm } from "@forms";
+
+test("form validation works", () => {
+  const { result } = renderHook(() => useForm({
+    defaultValues: { email: "" }
+  }));
+
+  act(() => {
+    result.current.setValue("email", "invalid-email");
+  });
+
+  expect(result.current.errors.email).toBeDefined();
+});
+```
+
+## Testing Custom Validators
+
+```tsx
+describe("Custom Validators", () => {
+  const validatePassword = (value: string) => {
+    if (value.length < 8) return "Too short";
+    if (!/[A-Z]/.test(value)) return "Need uppercase";
+    return true;
+  };
+
+  test("password validation", () => {
+    expect(validatePassword("short")).toBe("Too short");
+    expect(validatePassword("lowercase123")).toBe("Need uppercase");
+    expect(validatePassword("Valid123Password")).toBe(true);
+  });
+});
+```
+
+## Mocking Form Submission
+
+```tsx
+import { rest } from "msw";
+import { setupServer } from "msw/node";
+
+const server = setupServer(
+  rest.post("/api/submit", (req, res, ctx) => {
+    return res(ctx.json({ success: true }));
+  })
+);
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+test("form submission", async () => {
+  render(<MyForm />);
+  // Test form submission
+});
+``` 

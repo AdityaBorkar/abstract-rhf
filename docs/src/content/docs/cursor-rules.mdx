@@ -1,0 +1,94 @@
+# Cursor Rules
+
+Learn about cursor behavior and management in @forms.
+
+## Basic Cursor Management
+
+```tsx
+import { useForm } from "@forms";
+import { useRef } from "react";
+
+function CursorAwareForm() {
+  const inputRef = useRef(null);
+  const form = useForm();
+
+  const focusInput = () => {
+    inputRef.current?.focus();
+  };
+
+  return (
+    <form>
+      <input
+        ref={inputRef}
+        {...form.register("field")}
+      />
+    </form>
+  );
+}
+```
+
+## Cursor Position Preservation
+
+```tsx
+function PreserveCursorPosition() {
+  const [cursorPosition, setCursorPosition] = useState(0);
+
+  const handleChange = (e) => {
+    const input = e.target;
+    const position = input.selectionStart;
+    
+    form.setValue("field", e.target.value);
+    
+    // Restore cursor position after React re-render
+    requestAnimationFrame(() => {
+      input.setSelectionRange(position, position);
+    });
+  };
+
+  return (
+    <input
+      {...form.register("field", {
+        onChange: handleChange
+      })}
+    />
+  );
+}
+```
+
+## Auto-Focus Rules
+
+```tsx
+function AutoFocusForm() {
+  const form = useForm();
+
+  useEffect(() => {
+    // Auto-focus first error field
+    if (form.errors) {
+      const firstError = Object.keys(form.errors)[0];
+      if (firstError) {
+        form.setFocus(firstError);
+      }
+    }
+  }, [form.errors]);
+
+  return (
+    <form>
+      {/* form fields */}
+    </form>
+  );
+}
+```
+
+## Tab Order Management
+
+```tsx
+function TabOrderedForm() {
+  return (
+    <form>
+      <input {...form.register("first")} tabIndex={1} />
+      <input {...form.register("second")} tabIndex={2} />
+      <button type="submit" tabIndex={3}>Submit</button>
+    </form>
+  );
+}
+```

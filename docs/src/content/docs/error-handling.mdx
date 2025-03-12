@@ -1,0 +1,70 @@
+# Error Handling
+
+Learn how to handle form errors effectively with @forms.
+
+## Basic Validation
+
+```tsx
+const form = useForm({
+  defaultValues: {
+    email: "",
+    password: ""
+  },
+  validate: {
+    email: (value) => {
+      if (!value) return "Email is required";
+      if (!/^\S+@\S+$/.test(value)) return "Invalid email";
+      return true;
+    },
+    password: (value) => {
+      if (value.length < 8) return "Password must be at least 8 characters";
+      return true;
+    }
+  }
+});
+```
+
+## Displaying Errors
+
+```tsx
+function FormWithErrors() {
+  const { register, formState: { errors } } = useForm();
+
+  return (
+    <form>
+      <input {...register("email")} />
+      {errors.email && (
+        <span className="error">{errors.email.message}</span>
+      )}
+    </form>
+  );
+}
+```
+
+## Custom Error Messages
+
+```tsx
+const form = useForm({
+  messages: {
+    required: "This field is required",
+    pattern: {
+      email: "Please enter a valid email address"
+    }
+  }
+});
+```
+
+## Server-Side Errors
+
+```tsx
+const onSubmit = async (data) => {
+  try {
+    await submitToServer(data);
+  } catch (error) {
+    form.setError("root", {
+      type: "server",
+      message: error.message
+    });
+  }
+};
+``` 

@@ -1,0 +1,91 @@
+# Component Library
+
+Explore the built-in components provided by @forms.
+
+## Form Components
+
+### FormProvider
+
+```tsx
+import { FormProvider } from "@forms";
+
+function App() {
+  const methods = useForm();
+  return (
+    <FormProvider {...methods}>
+      <YourForm />
+    </FormProvider>
+  );
+}
+```
+
+### FormField
+
+```tsx
+import { FormField } from "@forms";
+
+function CustomField() {
+  return (
+    <FormField
+      name="fieldName"
+      render={({ field }) => (
+        <input {...field} />
+      )}
+    />
+  );
+}
+```
+
+## Input Components
+
+### TextField
+
+```tsx
+import { TextField } from "@forms";
+
+<TextField
+  name="username"
+  label="Username"
+  placeholder="Enter username"
+/>
+```
+
+### SelectField
+
+```tsx
+import { SelectField } from "@forms";
+
+<SelectField
+  name="country"
+  label="Country"
+  options={[
+    { value: "us", label: "United States" },
+    { value: "uk", label: "United Kingdom" }
+  ]}
+/>
+```
+
+## Composition
+
+Learn how to compose complex forms using these components:
+
+```tsx
+function ComposedForm() {
+  const form = useForm();
+
+  return (
+    <Form {...form}>
+      <TextField name="name" label="Name" />
+      <SelectField
+        name="role"
+        label="Role"
+        options={roles}
+      />
+      <CheckboxField
+        name="terms"
+        label="I agree to terms"
+      />
+    </Form>
+  );
+}
+``` 

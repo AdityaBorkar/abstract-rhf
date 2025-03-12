@@ -1,0 +1,81 @@
+# Controlled Inputs
+
+Learn how to work with controlled inputs in @forms.
+
+## Basic Controlled Input
+
+```tsx
+import { useForm, Controller } from "@forms";
+
+function ControlledInput() {
+  const form = useForm();
+
+  return (
+    <form>
+      <Controller
+        control={form.control}
+        name="field"
+        render={({ field }) => (
+          <input
+            value={field.value}
+            onChange={field.onChange}
+          />
+        )}
+      />
+    </form>
+  );
+}
+```
+
+## Working with Custom Components
+
+```tsx
+function CustomSelect({ value, onChange }) {
+  return (
+    <select value={value} onChange={e => onChange(e.target.value)}>
+      <option value="1">Option 1</option>
+      <option value="2">Option 2</option>
+    </select>
+  );
+}
+
+function FormWithCustomSelect() {
+  const form = useForm();
+
+  return (
+    <Controller
+      control={form.control}
+      name="select"
+      render={({ field }) => (
+        <CustomSelect
+          value={field.value}
+          onChange={field.onChange}
+        />
+      )}
+    />
+  );
+}
+```
+
+## Performance Optimization
+
+```tsx
+// Use memo to prevent unnecessary re-renders
+const MemoizedInput = React.memo(({ value, onChange }) => (
+  <input value={value} onChange={onChange} />
+));
+
+function OptimizedForm() {
+  const form = useForm();
+
+  return (
+    <Controller
+      control={form.control}
+      name="field"
+      render={({ field }) => (
+        <MemoizedInput {...field} />
+      )}
+    />
+  );
+}
+``` 

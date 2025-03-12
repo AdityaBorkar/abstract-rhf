@@ -1,0 +1,97 @@
+# Wizard / Funnel Forms
+
+Learn how to create multi-step form wizards with @forms.
+
+## Basic Wizard Implementation
+
+```tsx
+import { useForm } from "@forms";
+import { useState } from "react";
+
+function FormWizard() {
+  const [step, setStep] = useState(0);
+  const form = useForm();
+
+  const nextStep = () => setStep(s => s + 1);
+  const prevStep = () => setStep(s => s - 1);
+
+  return (
+    <form>
+      {step === 0 && (
+        <div>
+          <h2>Personal Information</h2>
+          <input {...form.register("name")} />
+          <input {...form.register("email")} />
+          <button type="button" onClick={nextStep}>Next</button>
+        </div>
+      )}
+      
+      {step === 1 && (
+        <div>
+          <h2>Address</h2>
+          <input {...form.register("address")} />
+          <input {...form.register("city")} />
+          <button type="button" onClick={prevStep}>Back</button>
+          <button type="button" onClick={nextStep}>Next</button>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div>
+          <h2>Review</h2>
+          <pre>{JSON.stringify(form.getValues(), null, 2)}</pre>
+          <button type="button" onClick={prevStep}>Back</button>
+          <button type="submit">Submit</button>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+## Using Wizard Hook
+
+@forms provides a dedicated hook for wizard forms:
+
+```tsx
+import { useWizardForm } from "@forms";
+
+function WizardForm() {
+  const {
+    currentStep,
+    nextStep,
+    prevStep,
+    isFirstStep,
+    isLastStep,
+    form
+  } = useWizardForm({
+    steps: ["personal", "address", "review"],
+    defaultValues: {
+      name: "",
+      email: "",
+      address: "",
+      city: ""
+    }
+  });
+
+  return (
+    <form>
+      {/* Your step content */}
+      <div className="flex gap-2">
+        {!isFirstStep && (
+          <button type="button" onClick={prevStep}>
+            Back
+          </button>
+        )}
+        {!isLastStep ? (
+          <button type="button" onClick={nextStep}>
+            Next
+          </button>
+        ) : (
+          <button type="submit">Submit</button>
+        )}
+      </div>
+    </form>
+  );
+}
+``` 

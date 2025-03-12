@@ -1,3 +1,3 @@
-export default function Examples() {
-	return <div>Examples</div>;
+export default function Page() {
+	return <div>REDIRECT TO A DEFAULT PAGE</div>;
 }

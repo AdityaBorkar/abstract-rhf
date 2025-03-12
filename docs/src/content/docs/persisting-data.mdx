@@ -1,0 +1,67 @@
+# Persisting Form Data
+
+Learn how to persist form data across sessions and page reloads.
+
+## Local Storage Integration
+
+```tsx
+import { useForm } from "@forms";
+import { useEffect } from "react";
+
+function PersistentForm() {
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: ""
+    }
+  });
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("form-data");
+    if (saved) {
+      form.reset(JSON.parse(saved));
+    }
+  }, []);
+
+  // Save to localStorage on change
+  useEffect(() => {
+    const subscription = form.watch((values) => {
+      localStorage.setItem("form-data", JSON.stringify(values));
+    });
+    return () => subscription.unsubscribe();
+  }, [form.watch]);
+
+  return (
+    // Your form JSX
+  );
+}
+```
+
+## Using Form State Hook
+
+@forms provides a built-in hook for easy persistence:
+
+```tsx
+import { useFormState } from "@forms";
+
+const { formState } = useFormState("unique-form-id");
+```
+
+## Auto-Save Feature
+
+Learn how to implement auto-save functionality:
+
+```tsx
+const AutoSaveForm = () => {
+  const form = useForm();
+  
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      // Debounced save to API
+      debouncedSave(value);
+    });
+    return () => subscription.unsubscribe();
+  }, [form.watch]);
+}
+``` 

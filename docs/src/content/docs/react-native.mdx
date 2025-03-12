@@ -1,0 +1,95 @@
+# React Native
+
+Learn how to use @forms with React Native applications.
+
+## Installation
+
+```bash
+npm install @forms/native
+# or
+yarn add @forms/native
+```
+
+## Basic Usage
+
+```tsx
+import { useForm } from "@forms/native";
+import { TextInput, Button, View } from "react-native";
+
+function NativeForm() {
+  const form = useForm({
+    defaultValues: {
+      username: "",
+      email: ""
+    }
+  });
+
+  return (
+    <View>
+      <TextInput
+        value={form.watch("username")}
+        onChangeText={text => form.setValue("username", text)}
+        placeholder="Username"
+      />
+      <TextInput
+        value={form.watch("email")}
+        onChangeText={text => form.setValue("email", text)}
+        placeholder="Email"
+      />
+      <Button
+        title="Submit"
+        onPress={form.handleSubmit(data => console.log(data))}
+      />
+    </View>
+  );
+}
+```
+
+## Native Components
+
+```tsx
+import { Form, Input, Select } from "@forms/native";
+
+function StyledForm() {
+  const form = useForm();
+
+  return (
+    <Form {...form}>
+      <Input
+        name="username"
+        label="Username"
+        placeholder="Enter username"
+      />
+      <Select
+        name="country"
+        label="Country"
+        options={countries}
+      />
+    </Form>
+  );
+}
+```
+
+## Platform Specific Features
+
+```tsx
+import { Platform } from "react-native";
+
+function PlatformAwareInput() {
+  const inputProps = Platform.select({
+    ios: {
+      clearButtonMode: "while-editing"
+    },
+    android: {
+      underlineColorAndroid: "transparent"
+    }
+  });
+
+  return (
+    <TextInput
+      {...form.register("field")}
+      {...inputProps}
+    />
+  );
+}
+``` 
