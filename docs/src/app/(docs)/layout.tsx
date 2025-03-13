@@ -9,7 +9,7 @@ import { SiGithub, SiJsr, SiNpm, SiX } from "react-icons/si";
 import { PiSun } from "react-icons/pi";
 
 import Search from "@/components/Search";
-import { sections } from "./navigation";
+import { sections } from "../../lib/navigation";
 import { cn } from "@/lib/utils";
 import {
 	GITHUB_STARS,

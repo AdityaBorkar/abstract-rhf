@@ -2,7 +2,7 @@ import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import { PiCaretRight } from "react-icons/pi";
 
-import { docs } from "@/app/(docs)/navigation";
+import { docs } from "@/lib/navigation";
 import Footer from "@/components/Footer";
 import TableOfContents from "@/components/TableOfContents";
 import FooterNav from "@/components/FooterNav";

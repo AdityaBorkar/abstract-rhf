@@ -39,9 +39,3 @@ export default function RootLayout({
 		</html>
 	);
 }
-
-// TODO: Analytics
-// TODO: Speed Insights
-// TODO: Sentry
-// TODO: SEO / Metadata / Open Graph
-// TODO: Sitemap

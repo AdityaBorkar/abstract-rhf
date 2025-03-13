@@ -75,13 +75,18 @@ export const docs = [
 		label: "Basics",
 		items: [
 			{
+				href: "/schema-library",
+				label: "Schema Library",
+				// https://www.react-hook-form.com/faqs/#Howtoinitializeformvalues
+			},
+			{
 				href: "/default-values",
 				label: "Default Values",
 				// https://www.react-hook-form.com/faqs/#Howtoinitializeformvalues
 			},
 			{
-				href: "/persisting-data",
-				label: "Persisting Data",
+				href: "/submit-resolver",
+				label: "Submit Resolver",
 			},
 			{
 				href: "/error-handling",
@@ -89,13 +94,12 @@ export const docs = [
 				// https://www.react-hook-form.com/advanced-usage/#CustomHookwithResolver
 			},
 			{
-				href: "/react-ref-id",
-				label: "React Ref & Id",
+				href: "/persisting-resolver",
+				label: "Persisting Resolver",
 			},
 			{
-				href: "/virtualized-lists",
-				label: "Virtualized Lists",
-				// https://www.react-hook-form.com/advanced-usage/#Workingwithvirtualizedlists
+				href: "/react-ref-id",
+				label: "React Ref & Id",
 			},
 		],
 	},
@@ -107,19 +111,10 @@ export const docs = [
 				label: "Controlled Components",
 				// https://www.react-hook-form.com/advanced-usage/#ControlledmixedwithUncontrolledComponents
 			},
-
-			{
-				href: "/smart-components",
-				label: "Smart Components",
-			},
 			{
 				href: "/components",
 				label: "Component Library",
 				// https://www.react-hook-form.com/advanced-usage/#SmartFormComponent
-			},
-			{
-				href: "/shadcn",
-				label: "ShadCN UI",
 			},
 			{
 				href: "/ui-library",
@@ -190,6 +185,15 @@ export const docs = [
 
 			// Validation: Cross-field, async, and schema-based logic.
 
+			{
+				href: "/virtualized-lists",
+				label: "Virtualized Lists",
+				// https://www.react-hook-form.com/advanced-usage/#Workingwithvirtualizedlists
+			},
+			{
+				href: "/ai-button",
+				label: "AI Button",
+			},
 			{
 				href: "/wizard",
 				label: "Wizard",
