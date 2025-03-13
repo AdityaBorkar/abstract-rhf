@@ -1,6 +1,8 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
 
+// TODO: AUTO-GENERATION
+
 export default async function Page({
 	params,
 }: {

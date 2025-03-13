@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -120,4 +121,8 @@
 	* {
 		@apply border-border outline-ring/50;
 	}
+}
+
+.scrollbar-gutter-stable {
+	scrollbar-gutter: stable both-edges;
 }

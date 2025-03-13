@@ -1,10 +1,33 @@
 {
 	"name": "abstract-rhf",
+	"license": "MIT",
 	"author": {
 		"name": "Aditya Borkar",
 		"email": "adityaborkar@gmail.com",
 		"url": "https://adityaborkar.com"
 	},
+	"keywords": [
+		"react",
+		"hooks",
+		"form",
+		"forms",
+		"form-validation",
+		"validation",
+		"typescript",
+		"react-hook-form"
+	],
+	"homepage": "https://github.com/adityaborkar/abstract-rhf",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/adityaborkar/abstract-rhf"
+	},
+	"funding": [
+		{
+			"type": "individual",
+			"url": "https://opencollective.com/formik"
+		}
+	],
+	"sideEffects": false,
 	"module": "index.ts",
 	"type": "module",
 	"exports": {

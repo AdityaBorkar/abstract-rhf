@@ -24,15 +24,6 @@ export default function SimpleForm() {
 		// components,
 	});
 
-	// Fully type-safe
-	// TODO: Throw errors if fieldNames are not found in the schema
-	// TODO: Async validation like GSTIN search
-
-	// Documentation in next.js! because we are using react.
-	// Option to turn on DEVTOOLS, Code in the side, integrated with shadcn/registry
-	// Make a codesandbox for each  type of form in BUN.
-	// Write a custom prompt in Cursor for each form
-
 	return (
 		<div className="max-w-7xl mx-auto p-8 text-center relative z-10">
 			<div className="mt-8 mx-auto w-full max-w-2xl text-left flex flex-col gap-4">

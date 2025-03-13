@@ -11,15 +11,22 @@ import { PiSun } from "react-icons/pi";
 import Search from "@/components/Search";
 import { sections } from "./navigation";
 import { cn } from "@/lib/utils";
-
-// TODO: Offline Access
+import {
+	GITHUB_STARS,
+	NPM_DOWNLOADS,
+	JSR_DOWNLOADS,
+	PACKAGE_VERSIONS,
+} from "@/lib/constants";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	const path = usePathname();
+	const currentPath = path.split("/").pop();
+
 	const sectionKey = path.split("/")[1];
 	const section = sections.find((s) => s.basePath === sectionKey);
 
 	useEffect(() => {
+		// TODO: Better Offline Support
 		if ("serviceWorker" in navigator) {
 			navigator.serviceWorker
 				.register("/service-worker.js")
@@ -27,21 +34,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 		}
 	}, []);
 
-	// TODO: add color theme
 	return (
 		<div
 			className={cn(
-				"[--sidebar-width:16rem] [--header-height:3rem]",
+				"[--sidebar-width:18rem] [--header-height:3rem]",
 				"grid grid-cols-[var(--sidebar-width)_auto] grid-rows-[var(--header-height)_auto] h-screen bg-neutral-200/50",
 			)}
 		>
 			<header className="col-span-2 items-center grid grid-cols-3 border-b border-border justify-between">
-				<div className="flex flex-row items-center px-8 w-[var(--sidebar-width)]">
+				<div className="flex flex-row items-center px-10 w-[var(--sidebar-width)]">
 					<Link href="/" className="text-lg font-bold text-center">
 						abstract-rhf
 					</Link>
-					<div className="text-sm ml-4 py-1 px-3 rounded-full bg-muted-foreground text-white">
-						v 0.1
+					<div className="text-xs ml-3 py-1 px-2 rounded-full bg-pink-700 font-semibold text-white">
+						{PACKAGE_VERSIONS[0].label}
 					</div>
 				</div>
 
@@ -51,25 +57,32 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 					<SocialLink
 						href="https://github.com/AdityaBorkar/abstract-rhf"
 						icon={SiGithub}
+						tooltip={`${GITHUB_STARS}+ stars`}
 					/>
 					<SocialLink
 						href="https://www.npmjs.com/package/abstract-rhf"
 						icon={SiNpm}
+						tooltip={`${NPM_DOWNLOADS}+ downloads`}
 					/>
 					<SocialLink
 						href="https://jsr.dev/abstract-rhf"
 						icon={SiJsr}
+						tooltip={`${JSR_DOWNLOADS}+ downloads`}
 						iconClass="py-1"
 					/>
-					<SocialLink href="https://x.com/adityab_tech" icon={SiX} />
+					<SocialLink
+						href="https://x.com/adityab_tech"
+						icon={SiX}
+						tooltip="Follow for Updates!"
+					/>
 					<button type="button" className="ml-4">
 						<PiSun className="size-9 py-2" />
 					</button>
 				</div>
 			</header>
 
-			<nav className="relative border-r-2 border-border">
-				<div className="flex flex-col py-2 px-4 border-b border-border">
+			<nav className="relative border-r-2 pb-8 overflow-y-auto border-border">
+				<div className="flex flex-col py-2 px-6 border-b border-border">
 					{sections.map(({ label, basePath, icon: Icon }) => (
 						<Link
 							key={label}
@@ -82,18 +95,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 					))}
 				</div>
 
-				<div className="flex flex-col px-4 my-2 text-sm ">
+				<div className="flex flex-col px-6 my-2 text-sm ">
 					{section?.items.map(({ items, label }) => {
 						return (
-							<div key={label} className="contents">
-								<div className="font-medium text-pink-800 mt-2 px-4 py-1">
-									{label}
-								</div>
+							<div
+								key={label}
+								className={cn(
+									"flex flex-col relative",
+									"after:h-[calc(100%-2.25rem)] after:border-l after:border-border after:absolute after:left-5 after:top-9",
+								)}
+							>
+								<div className="text-neutral-700 mt-2 px-4 py-1">{label}</div>
 								{items.map(({ href, label }) => (
 									<Link
 										key={href}
-										href={`${section?.basePath}${href}`}
-										className="py-1 px-4 rounded-md text-muted-foreground hover:text-primary"
+										href={`/${section?.basePath}${href}`}
+										className={cn(
+											"ml-6 py-1 px-2 rounded-md text-muted-foreground hover:bg-pink-100 hover:text-primary relative",
+											`/${currentPath}` === href &&
+												"text-pink-700 before:content-[''] before:absolute before:-left-1 z-10 before:top-0.5 before:border-r before:border-pink-600 before:h-6",
+										)}
 									>
 										{label}
 									</Link>
@@ -102,20 +123,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 						);
 					})}
 				</div>
-
-				<div className="absolute bottom-0 left-0 py-2 right-0 w-full">
-					<Link
-						href="/ai-form-builder"
-						className="text-sm text-center w-full block py-2 px-4 rounded-md text-muted-foreground hover:text-primary"
-					>
-						AI Form Builder
-					</Link>
-				</div>
 			</nav>
 
-			<main className="bg-neutral-100 px-16 py-4 overflow-auto">
-				{children}
-			</main>
+			<main className="bg-neutral-100 overflow-auto">{children}</main>
 		</div>
 	);
 }
@@ -124,19 +134,23 @@ function SocialLink({
 	href,
 	icon: Icon,
 	iconClass,
-}: { href: string; icon: IconType; iconClass?: string }) {
+	tooltip,
+}: { href: string; icon: IconType; iconClass?: string; tooltip: string }) {
 	return (
 		<Link
 			target="_blank"
 			href={href}
-			className="hover:bg-neutral-200 rounded cursor-alias px-2"
+			className="group relative hover:bg-neutral-200 rounded cursor-alias px-1"
 		>
 			<Icon
 				className={cn(
-					"text-neutral-500 hover:text-neutral-900 size-9 py-2",
+					"text-neutral-500 group-hover:text-neutral-900 size-9 py-2",
 					iconClass,
 				)}
 			/>
+			<div className="absolute whitespace-nowrap -bottom-11 -left-[50%] w-fit py-1.5 px-3 rounded-full bg-pink-700 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+				{tooltip}
+			</div>
 		</Link>
 	);
 }

@@ -31,7 +31,7 @@ export default function RootLayout({
 				className={cn(
 					geistSans.variable,
 					geistMono.variable,
-					"font-sans bg-background text-foreground antialiased",
+					"font-sans text-sm bg-background cursor-default text-foreground antialiased",
 				)}
 			>
 				{children}
@@ -40,7 +40,8 @@ export default function RootLayout({
 	);
 }
 
-// TODO: Speed Insights
 // TODO: Analytics
+// TODO: Speed Insights
 // TODO: Sentry
+// TODO: SEO / Metadata / Open Graph
 // TODO: Sitemap

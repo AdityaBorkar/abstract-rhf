@@ -21,6 +21,3 @@ export function generateStaticParams() {
 }
 
 export const dynamicParams = false;
-
-// TODO: Open Graph
-// TODO: SEO
