@@ -6,25 +6,49 @@ export const examples = [
 	// Fully type-safe
 	// TODO: Throw errors if fieldNames are not found in the schema
 	// TODO: Async validation like GSTIN search
+	// File Uploads
+	// useField hook
+
+	// Intent
+	//   const [form] = useForm({
+	//     onSubmit(event, { formData }) {
+	//       event.preventDefault();
+
+	//       switch (formData.get('intent')) {
+	//         case 'add-to-cart':
+	//           // Add to cart
+	//           break;
+	//         case 'buy-now':
+	//           // Buy now
+	//           break;
+	//       }
+	//     },
+	//   });
+	// 	<button type="submit" name="intent" value="add-to-cart">
+	// 	Add to Cart
+	//   </button>
+	//   <button type="submit" name="intent" value="buy-now">
+	// 	Buy now
+	//   </button>
 
 	// https://github.com/react-hook-form/react-hook-form/tree/master/examples
 	{
 		label: "Simple",
 		items: [
 			{
-				href: "/examples/simple",
+				href: "/simple",
 				label: "Simple Form",
 			},
 			{
-				href: "/examples/reusable",
+				href: "/reusable",
 				label: "Reusable Form",
 			},
 			{
-				href: "/examples/modal",
+				href: "/modal",
 				label: "Modal Form",
 			},
 			{
-				href: "/examples/tab",
+				href: "/tab",
 				label: "Tab Form",
 			},
 		],
@@ -33,11 +57,11 @@ export const examples = [
 		label: "Complex",
 		items: [
 			{
-				href: "/examples/complex",
+				href: "/complex",
 				label: "Complex Form",
 			},
 			{
-				href: "/examples/conditional",
+				href: "/conditional",
 				label: "Conditional Form",
 			},
 		],
@@ -239,7 +263,7 @@ export const api = [
 		label: "API Reference",
 		items: [
 			{
-				href: "/api/useForm",
+				href: "/useForm",
 				label: "useForm",
 			},
 		],

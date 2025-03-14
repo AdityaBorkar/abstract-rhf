@@ -6,36 +6,31 @@
 bun add abstract-rhf
 ```
 
-TODO: ADD COPY BUTTON AND SYNTAX HIGHLIGHTING, WITH FILENAME AS HEADER.
-
 ## Basic Usage
 
 Here's a simple example of how to create a form:
 
 ```tsx
-// Filename: app/form.tsx
-import { useForm } from "@forms";
+// Filename: page.tsx
+import { useForm } from "abstract-rhf";
 
-function MyForm() {
-  const form = useForm({
+export default function MyForm() {
+  const { Form } = useForm({
     defaultValues: {
       username: "",
       email: "",
     },
+    onSubmit: (data) => {
+      console.log(data);
+    },
   });
 
   return (
-    <form onSubmit={form.handleSubmit((data) => console.log(data))}>
+    <Form>
       <input {...form.register("username")} />
       <input {...form.register("email")} />
       <button type="submit">Submit</button>
-    </form>
+    </Form>
   );
 }
 ```
-
-## Next Steps
-
-- Learn about [Default Values](/default-values)
-- Explore [ShadCN Components](/shadcn)
-- Check out our [Examples](/examples/simple) 

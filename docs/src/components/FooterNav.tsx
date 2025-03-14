@@ -8,7 +8,7 @@ export default function FooterNav({
 	nextItem: { href: string; label: string };
 }) {
 	return (
-		<div className="mt-8 border-t border-border py-4 flex flex-row justify-between">
+		<div className="mt-16 border-t border-border py-4 flex flex-row justify-between">
 			{prevItem ? (
 				<Link
 					href={`/docs${prevItem.href}`}

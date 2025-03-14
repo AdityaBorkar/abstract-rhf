@@ -1,0 +1,51 @@
+import CodeGroup from "@/components/CodeGroup";
+import CodeSnippet from "@/components/CodeSnippet";
+
+# Integrating with Schema Validation Libraries
+
+You MUST use any of the supported schema validation libraries to validate form data:
+
+- [Zod](https://zod.dev/)
+
+The following libraries are work-in-progress. Kindly upvote the libraries, using the GitHub issue links to help us prioritize the libraries.
+
+- [Yup - GitHub Issue](https://github.com/AdiyaBorkar/abstract-forms/issues/1)
+- [Joi - GitHub Issue](https://github.com/AdiyaBorkar/abstract-forms/issues/1)
+- [Ajv - GitHub Issue](https://github.com/AdiyaBorkar/abstract-forms/issues/1)
+- [Valibot - GitHub Issue](https://github.com/AdiyaBorkar/abstract-forms/issues/1)
+- [Superstruct - GitHub Issue](https://github.com/AdiyaBorkar/abstract-forms/issues/1)
+
+## Usage
+
+```tsx
+import { z } from "zod";
+import { useForm } from "abstract-rhf";
+
+const schema = z.object({
+  name: z.string().min(1),
+});
+```
+
+## Additional Features
+
+### Field Labels
+
+::: code-group
+
+```tsx [zod]
+.describe("Label Name")
+```
+
+```tsx [yup]
+.describe("Label Name")
+```
+
+:::
+
+### Error Management
+
+```tsx
+// Zod
+.error("Error Message")
+```
+
