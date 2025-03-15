@@ -1,5 +1,5 @@
-import { useForm } from "abstract-rhf";
-import { schemaResolver } from "abstract-rhf/resolvers/zod";
+import { useForm } from "formzen";
+import { schemaResolver } from "formzen/resolvers/zod";
 import { toast } from "sonner";
 
 import { processForm } from "@/actions/processForm";

@@ -1,4 +1,4 @@
-const CACHE_NAME = "abstract-rhf-cache-v1"; // ! DEPENDENT ON MANIFEST.JSON. UPDATE ON SUBSEQUENT DEPLOYMENTS.
+const CACHE_NAME = "formzen-cache-v1"; // ! DEPENDENT ON MANIFEST.JSON. UPDATE ON SUBSEQUENT DEPLOYMENTS.
 
 self.addEventListener("install", (event) => {
 	event.waitUntil(

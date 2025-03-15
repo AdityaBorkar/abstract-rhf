@@ -32,5 +32,3 @@ ShadCN/ui (planned)
     - Visual color contrast
     - Semantic structure
 
-abstract-rhf
-abstract-tf

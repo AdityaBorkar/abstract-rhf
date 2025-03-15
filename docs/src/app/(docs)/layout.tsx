@@ -44,7 +44,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 			<header className="col-span-2 items-center grid grid-cols-3 border-b border-border justify-between">
 				<div className="flex flex-row items-center px-10 w-[var(--sidebar-width)]">
 					<Link href="/" className="text-lg font-bold text-center">
-						abstract-rhf
+						formzen
 					</Link>
 					<div className="text-xs ml-3 py-1 px-2 rounded-full bg-pink-700 font-semibold text-white">
 						{PACKAGE_VERSIONS[0].label}
@@ -55,17 +55,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 				<div className="items-center justify-end px-8  flex flex-row">
 					<SocialLink
-						href="https://github.com/AdityaBorkar/abstract-rhf"
+						href="https://github.com/AdityaBorkar/formzen"
 						icon={SiGithub}
 						tooltip={`${GITHUB_STARS}+ stars`}
 					/>
 					<SocialLink
-						href="https://www.npmjs.com/package/abstract-rhf"
+						href="https://www.npmjs.com/package/formzen"
 						icon={SiNpm}
 						tooltip={`${NPM_DOWNLOADS}+ downloads`}
 					/>
 					<SocialLink
-						href="https://jsr.dev/abstract-rhf"
+						href="https://jsr.dev/formzen"
 						icon={SiJsr}
 						tooltip={`${JSR_DOWNLOADS}+ downloads`}
 						iconClass="py-1"

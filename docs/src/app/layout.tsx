@@ -16,8 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "abstract-rhf",
-	description: "A library for building forms with React-Hook-Form",
+	title: "formzen",
+	description:
+		"A library for building forms with Tanstack Forms or React-Hook-Form",
 };
 
 export default function RootLayout({

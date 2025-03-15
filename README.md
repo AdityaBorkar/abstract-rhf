@@ -1,4 +1,4 @@
-# abstract-rhf
+# formzen
 
 NOTE - This library is made as a side project, ideated from own requirements. I am eager to hear your feedback and feature requests. Kindly drop your suggestions in this form OR discord server.
 

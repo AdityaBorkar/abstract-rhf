@@ -1,6 +1,6 @@
 "use server";
 
-import { validateFormData } from "abstract-rhf";
+import { validateFormData } from "formzen";
 import { simpleSchema } from "@/schemas/simple";
 
 export async function processForm(formData: FormData) {

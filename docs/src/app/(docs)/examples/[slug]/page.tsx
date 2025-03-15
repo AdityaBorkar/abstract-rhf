@@ -46,19 +46,19 @@ export default async function ExamplesLayout({
 				</div>
 				<div className="text-2xl font-medium mb-4">Heading</div>
 				<div className="flex flex-row gap-2 items-center">
-					<CodeLink href="https://github.com/AdityaBorkar/abstract-rhf">
+					<CodeLink href="https://github.com/AdityaBorkar/formzen">
 						<SiGithub className="inline-block size-4 -mt-1 mr-1.5" />
 						GitHub
 					</CodeLink>
-					<CodeLink href="https://github.com/AdityaBorkar/abstract-rhf">
+					<CodeLink href="https://github.com/AdityaBorkar/formzen">
 						<VscVscode className="inline-block size-4.5 -mt-0.5 mr-1" />
 						VS Code
 					</CodeLink>
-					<CodeLink href="https://github.com/AdityaBorkar/abstract-rhf">
+					<CodeLink href="https://github.com/AdityaBorkar/formzen">
 						<SiCodesandbox className="inline-block size-4 -mt-1 mr-1.5" />
 						CodeSandbox
 					</CodeLink>
-					<CodeLink href="https://github.com/AdityaBorkar/abstract-rhf">
+					<CodeLink href="https://github.com/AdityaBorkar/formzen">
 						<SiStackblitz className="inline-block size-4 -mt-1 mr-1" />
 						StackBlitz
 					</CodeLink>
@@ -71,7 +71,7 @@ export default async function ExamplesLayout({
 				<div className="text-sm">Code Output</div>
 			</div>
 			<Footer
-				editLink={`https://github.com/AdityaBorkar/abstract-rhf/edit/main/docs/src/content/examples/${slug}.mdx`}
+				editLink={`https://github.com/AdityaBorkar/formzen/edit/main/docs/src/content/examples/${slug}.mdx`}
 			/>
 		</div>
 	);

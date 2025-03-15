@@ -50,7 +50,7 @@ export default async function DocumentationLayout({
 					<FooterNav prevItem={prevItem} nextItem={nextItem} />
 				</div>
 				<Footer
-					editLink={`https://github.com/AdityaBorkar/abstract-rhf/edit/main/docs/src/content/docs/${slug}.mdx`}
+					editLink={`https://github.com/AdityaBorkar/formzen/edit/main/docs/src/content/docs/${slug}.mdx`}
 				/>
 			</div>
 			<div className="px-8">
