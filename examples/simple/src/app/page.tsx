@@ -1,5 +1,5 @@
 import "./index.css";
-// import { useForm } from "@forms/react";
+import { useForm } from "formzen/rhf";
 import { z } from "zod";
 
 const schema = z.object({
@@ -11,7 +11,7 @@ export default function App() {
 	const { Form, isPending } = useForm({ schema });
 
 	return (
-		<div className="max-w-7xl mx-auto p-8 text-center relative z-10">
+		<div className='relative z-10 mx-auto max-w-7xl p-8 text-center'>
 			Hello World
 		</div>
 	);

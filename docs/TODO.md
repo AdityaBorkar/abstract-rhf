@@ -1,23 +1,29 @@
+View Transitions
+
 API Auto-generation
 Constants.ts auto-generation
-Integrate Biome.json
+Search and AI functionality
 
-Redirect "/docs" to "/docs/introduction"
-Redirect "/examples" to "/examples/introduction"
-Redirect "/api" to "/api/README"
+Redirects:
+- Redirect "/docs" to "/docs/introduction"
+- Redirect "/examples" to "/examples/introduction"
+- Redirect "/api" to "/api/README"
 
-TODO: Dark-light theme and clean globals.css
+Styles:
+- Dark-light theme and clean globals.css
+- Theme Change View Transition
 
-Table of Contents
-Code Snippet
-Link Underline
+Custom MDX Components:
+- Table of Contents
+- Code Snippet
+- Link Underline
 
-TODO: Analytics
-TODO: Speed Insights
-TODO: Sentry
-TODO: SEO / Metadata / Open Graph
 TODO: Sitemap
+TODO: SEO / Metadata / Open Graph
 TODO: Better Offline Support
 
-Search and AI functionality
+TODO: Sentry
+TODO: Analytics
+TODO: Speed Insights
+
 

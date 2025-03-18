@@ -1,12 +1,14 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
-import { PiCaretRight } from "react-icons/pi";
-import { SiCodesandbox, SiGithub, SiStackblitz } from "react-icons/si";
+import { PiCaretRight, PiCode } from "react-icons/pi";
+import { SiCodesandbox, SiGithub } from "react-icons/si";
 import { VscVscode } from "react-icons/vsc";
 import Link from "next/link";
 
 import { examples } from "@/lib/navigation";
 import Footer from "@/components/Footer";
+import { cn } from "@/lib/utils";
+import CodeExample from "@/components/CodeExample";
 
 const ALL_EXAMPLES = examples.flatMap(({ label: groupLabel, items }) =>
 	items.map((item) => ({ groupLabel, ...item })),
@@ -34,42 +36,56 @@ export default async function ExamplesLayout({
 	const breadcrumbItems = [item?.groupLabel, item?.label];
 
 	return (
-		<div className="relative w-full scrollbar-gutter-stable mx-auto *:px-16">
+		<div className='scrollbar-gutter-stable relative mx-auto w-full *:px-16'>
 			<div className="py-8">
-				<div className="text-sm text-pink-600 font-medium mb-4">
+				<div className='mb-4 font-medium text-pink-600 text-sm'>
 					{breadcrumbItems.map((item) => (
 						<span key={item}>
 							{item}
-							<PiCaretRight className="inline-block mx-1 -mt-0.5" />
+							<PiCaretRight className='-mt-0.5 mx-1 inline-block' />
 						</span>
 					))}
 				</div>
-				<div className="text-2xl font-medium mb-4">Heading</div>
-				<div className="flex flex-row gap-2 items-center">
-					<CodeLink href="https://github.com/AdityaBorkar/formzen">
-						<SiGithub className="inline-block size-4 -mt-1 mr-1.5" />
-						GitHub
+				<div className='mb-4 font-medium text-2xl'>Heading</div>
+				<div className='flex flex-row items-center gap-2'>
+					<CodeLink
+						href="https://github.com/AdityaBorkar/formzen"
+						className="bg-pink-700"
+					>
+						<PiCode className='-mt-1 mr-1 inline-block size-4' />
+						Source Code
 					</CodeLink>
-					<CodeLink href="https://github.com/AdityaBorkar/formzen">
-						<VscVscode className="inline-block size-4.5 -mt-0.5 mr-1" />
+					<CodeLink href="https://vscode.dev" className="bg-[#0078d4]">
+						<VscVscode className='-mt-0.5 mr-1 inline-block size-4.5' />
 						VS Code
 					</CodeLink>
+					<CodeLink
+						href="https://github.com/AdityaBorkar/formzen"
+						className="bg-gray-800"
+					>
+						<SiGithub className='-mt-1 mr-1.5 inline-block size-4' />
+						GitHub Codespaces
+					</CodeLink>
+					{
+						// ! Blocked by https://github.com/oven-sh/bun/issues/18255
+					}
 					<CodeLink href="https://github.com/AdityaBorkar/formzen">
-						<SiCodesandbox className="inline-block size-4 -mt-1 mr-1.5" />
+						<SiCodesandbox className='-mt-1 mr-1.5 inline-block size-4' />
 						CodeSandbox
 					</CodeLink>
+					{/*
+					// ! StackBlitz uses Node.js in the browser, hence not compatible with our Bun Examples.
 					<CodeLink href="https://github.com/AdityaBorkar/formzen">
 						<SiStackblitz className="inline-block size-4 -mt-1 mr-1" />
 						StackBlitz
 					</CodeLink>
+					*/}
 				</div>
 			</div>
-			<div className="grid grid-cols-3 border-b border-gray-200 pb-8">
-				<div className="text-sm col-span-2">
-					CODE file structure + code snippets
-				</div>
-				<div className="text-sm">Code Output</div>
+			<div className="py-4">
+				<CodeExample />
 			</div>
+			<div className='mt-8 border-gray-200 border-b' />
 			<Footer
 				editLink={`https://github.com/AdityaBorkar/formzen/edit/main/docs/src/content/examples/${slug}.mdx`}
 			/>
@@ -80,13 +96,17 @@ export default async function ExamplesLayout({
 function CodeLink({
 	href,
 	children,
-}: { href: string; children: React.ReactNode }) {
+	className,
+}: { href: string; children: React.ReactNode; className?: string }) {
 	return (
 		<Link
 			href={href}
 			target="_blank"
 			rel="noopener noreferrer"
-			className="py-1.5 px-2 text-xs rounded-md cursor-alias font-medium bg-black text-white"
+			className={cn(
+				'hover:-translate-y-0.5 cursor-alias rounded-md bg-black px-2 py-1.5 font-medium text-white text-xs transition-all',
+				className,
+			)}
 		>
 			{children}
 		</Link>

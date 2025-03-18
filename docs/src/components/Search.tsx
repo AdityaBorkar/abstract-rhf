@@ -1,6 +1,6 @@
 export default function Search() {
 	return (
-		<div className="text-sm text-center py-2 px-4 rounded-md bg-neutral-200 text-muted-foreground hover:text-primary">
+		<div className='rounded-md bg-neutral-200 px-4 py-2 text-center text-muted-foreground text-sm hover:text-primary'>
 			Search (CTRL + K)
 		</div>
 	);

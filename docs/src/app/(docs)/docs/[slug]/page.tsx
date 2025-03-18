@@ -35,17 +35,17 @@ export default async function DocumentationLayout({
 	const breadcrumbItems = [item?.groupLabel, item?.label];
 
 	return (
-		<div className="relative grid grid-cols-[44rem_20rem] scrollbar-gutter-stable *:py-8 mx-auto w-fit">
+		<div className='scrollbar-gutter-stable relative mx-auto grid w-fit grid-cols-[44rem_20rem] *:py-8'>
 			<div>
-				<div className="text-sm text-pink-600 font-medium mb-8">
+				<div className='mb-8 font-medium text-pink-600 text-sm'>
 					{breadcrumbItems.map((item) => (
 						<span key={item}>
 							{item}
-							<PiCaretRight className="inline-block mx-1 -mt-0.5" />
+							<PiCaretRight className='-mt-0.5 mx-1 inline-block' />
 						</span>
 					))}
 				</div>
-				<div className="prose max-w-full w-full min-h-[calc(100vh-var(--header-height))]">
+				<div className='prose min-h-[calc(100vh-var(--header-height))] w-full max-w-full'>
 					<Page />
 					<FooterNav prevItem={prevItem} nextItem={nextItem} />
 				</div>

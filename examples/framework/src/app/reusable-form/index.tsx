@@ -25,8 +25,8 @@ export default function SimpleForm() {
 	});
 
 	return (
-		<div className="max-w-7xl mx-auto p-8 text-center relative z-10">
-			<div className="mt-8 mx-auto w-full max-w-2xl text-left flex flex-col gap-4">
+		<div className='relative z-10 mx-auto max-w-7xl p-8 text-center'>
+			<div className='mx-auto mt-8 flex w-full max-w-2xl flex-col gap-4 text-left'>
 				<Form className="">
 					{/* <Field name="endpoint" component={<Input />} /> */}
 					{/* <Field component="input" name="endpoint" {...params} /> */}
