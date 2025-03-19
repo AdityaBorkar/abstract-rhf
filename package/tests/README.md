@@ -1,0 +1,1 @@
+<!-- Check for both - js and ts types -->

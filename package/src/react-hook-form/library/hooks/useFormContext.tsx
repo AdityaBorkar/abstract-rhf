@@ -3,20 +3,25 @@ import type {
 	FieldErrorsImpl,
 	Merge,
 	UseFormRegisterReturn,
-} from "react-hook-form";
+} from 'react-hook-form';
 
-import { useFormContext as useReactHookFormContext } from "react-hook-form";
+import { useFormContext as useReactHookFormContext } from 'react-hook-form';
 
-export type FormContextAdditionalType<FieldName extends string> = {
-	getFieldProperties: (name: FieldName) => UseFormRegisterReturn<FieldName>;
-	getFieldMetadata: (name: FieldName) => unknown; // ! DO TYPE-SAFETY
-	getFieldError: (
-		name: FieldName,
-	) =>
+export type FormContextAdditionalType<
+	FieldName extends string,
+	// ! DO TYPE-SAFETY for `FieldName`
+> = {
+	registerField: (name: FieldName) => UseFormRegisterReturn<FieldName>;
+	getFieldMetadata: (name: FieldName) => {
+		label?: string;
+		[key: string]: unknown;
+	}; // ! DO TYPE-SAFETY for above record.
+	getFieldError: (name: FieldName) =>
 		| string
+		| undefined
 		| FieldError
-		| Merge<FieldError, FieldErrorsImpl<any>>
-		| undefined;
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		| Merge<FieldError, FieldErrorsImpl<any>>;
 };
 
 export function useFormContext() {

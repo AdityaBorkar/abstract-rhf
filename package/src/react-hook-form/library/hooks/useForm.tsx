@@ -1,15 +1,25 @@
-// TODO: Remove the below line
-import type { z, ZodTypeAny } from "zod";
+import type { ComponentProps } from 'react';
+import type { DefaultValues } from 'react-hook-form';
+import type { ZodSchema, ZodSchemaResolver } from '../../zod';
+import type { FormContextAdditionalType } from '../hooks/useFormContext';
 
-import type { ComponentProps } from "react";
-import type { DefaultValues } from "react-hook-form";
-import type { ZodSchemaResolver } from "../resolvers/zod";
-import type { FormContextAdditionalType } from "../hooks/useFormContext";
+import { useState, useTransition } from 'react';
+import { FormProvider, useForm as useReactHookForm } from 'react-hook-form';
 
-import { useState, useTransition } from "react";
-import { FormProvider, useForm as useReactHookForm } from "react-hook-form";
+import { FormzenError } from '@/utils/form/error';
+
+type FormSchemaEnum = ZodSchema;
+
+type Resolve_FormSchemaResolver<SchemaType extends FormSchemaEnum> =
+	SchemaType extends ZodSchema ? ZodSchemaResolver<SchemaType> : never;
+
+type FormSubmissionHandler<SchemaData> =
+	| ((data: SchemaData) => Promise<unknown>)
+	| ((data: FormData) => Promise<unknown>);
 
 /**
+ * TODO: Write these docs
+ *
  * @param uid - Unique identifier for the form
  * @param schema - Zod schema for form validation
  * @param debug - Whether to enable debug mode
@@ -17,114 +27,137 @@ import { FormProvider, useForm as useReactHookForm } from "react-hook-form";
  * @param defaultValues - Default values for form fields
  */
 interface useFormProps<
-	Schema extends ZodTypeAny, // ! DEPENDENT ON ZOD
-	SchemaResolver extends ZodSchemaResolver<Schema>,
-	onSubmitType extends (data: SchemaResolver["data"]) => Promise<unknown>,
+	Schema extends FormSchemaEnum,
+	SchemaResolver extends Resolve_FormSchemaResolver<Schema>,
+	onSubmitType extends FormSubmissionHandler<SchemaResolver['schema']>,
 	SubmitResolver extends (
 		response: ReturnType<onSubmitType>,
 		error: unknown,
 	) => Promise<void>,
 > {
-	submitResolver: SubmitResolver;
-	schemaResolver: SchemaResolver["functions"];
-	// persistenceResolver: PersistenceResolver;
+	// id: string;
 	schema: Schema;
 	defaultValues?:
-		| ((payload?: unknown) => Promise<Partial<SchemaResolver["data"]>>)
-		| DefaultValues<Partial<SchemaResolver["data"]>>
+		| ((payload?: unknown) => Promise<Partial<SchemaResolver['schema']>>)
+		| DefaultValues<Partial<SchemaResolver['schema']>>
 		| undefined;
-	// uid: string;
+	onSubmit: onSubmitType;
+	submitResolver: SubmitResolver;
+	schemaResolver: SchemaResolver['api'];
+	// persistenceResolver: PersistenceResolver;
+	components: {
+		text: React.ComponentType; // TODO: Add type-safety to `name`
+	};
 	// debug?: boolean;
 	// persist?: boolean;
 	// softErrors?: boolean;
-	onSubmit: onSubmitType;
-	// components: {
-	// 	text: TextInput
-	// 	...
-	// },
+	disableBrowserValidation?: boolean;
+	disableProgressiveEnhancements?: boolean;
 }
 
-interface FormProps extends ComponentProps<"form"> {
+interface FormProps extends ComponentProps<'form'> {
+	// TODO: disallow `action`, `method`, `enctype`
 	children: React.ReactNode;
 }
 
 export function useForm<
-	Schema extends ZodTypeAny,
-	SchemaResolver extends ZodSchemaResolver<Schema>,
-	onSubmitType extends (data: SchemaResolver["data"]) => Promise<unknown>,
+	Schema extends ZodSchema,
+	SchemaResolver extends Resolve_FormSchemaResolver<Schema>,
+	onSubmitType extends (data: SchemaResolver['schema']) => Promise<unknown>,
 	SubmitResolver extends (
 		response: ReturnType<onSubmitType>,
 		error: unknown,
 	) => Promise<void>,
 >({
+	// id,
 	schema,
-	// onSubmit,
+	onSubmit,
 	defaultValues,
 	schemaResolver,
 	submitResolver,
 	// persistenceResolver,
-	// uid,
+	components,
 	// debug,
 	// persist,
 	// softErrors,
-}: {
-	schema: Schema;
-	onSubmit: onSubmitType;
-	submitResolver: SubmitResolver;
-	// persistenceResolver: PersistenceResolver;
-	schemaResolver: SchemaResolver["functions"];
-	defaultValues?:
-		| ((payload?: unknown) => Promise<Partial<SchemaResolver["data"]>>)
-		| DefaultValues<Partial<SchemaResolver["data"]>>
-		| undefined;
-	uid: string;
-	debug?: boolean;
-	persist?: boolean;
-	softErrors?: boolean;
-	progressiveEnhancements?: boolean;
-	// components: {
-	// 	text: TextInput
-	// 	...
-	// },
-}) {
-	if (!schemaResolver) throw new Error("schemaResolver is required");
+	disableBrowserValidation = false,
+	disableProgressiveEnhancements = false,
+}: useFormProps<Schema, SchemaResolver, onSubmitType, SubmitResolver>) {
+	if (!schemaResolver)
+		throw new FormzenError('Missing required parameter: `schemaResolver`', {
+			stackTrace: useForm,
+			cause: { code: 'NotProvided', values: [schemaResolver] },
+			docsLink: 'https://formzen.com/docs/useForm#error-schemaresolver',
+		});
 
-	const [isPending, startTransition] = useTransition();
+	const [, startTransition] = useTransition();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const formMethods = useReactHookForm({
 		defaultValues,
 		resolver: schemaResolver.resolver(schema),
+		progressive: !disableProgressiveEnhancements,
+		shouldUseNativeValidation: !disableBrowserValidation,
 	});
 
-	function Form({ children, ...props }: FormProps) {
-		// TODO: Persistence
+	type FieldNameEnum = SchemaResolver['fieldName'];
+	const { fieldNames, fieldMetadata } = schemaResolver.getFieldsData(schema);
 
+	const FieldComponent = {};
+
+	function Form({ children, ...props }: FormProps) {
 		// TODO: Memoize the functions
 
-		const getFieldProperties = ((name: SchemaResolver["fieldNameEnum"]) => {
-			if (!name) throw new Error("Field name is required");
-			return formMethods.register(name); // !
-		}) satisfies FormContextAdditionalType<
-			SchemaResolver["fieldNameEnum"]
-		>["getFieldProperties"];
+		const registerField: FormContextAdditionalType<FieldNameEnum>['registerField'] =
+			(name: FieldNameEnum) => {
+				if (!name)
+					// !
+					throw new FormzenError(
+						'Field name is not valid. Use any of the following values: ...',
+						{
+							stackTrace: registerField,
+							cause: { code: 'NotProvided', values: [name] },
+							docsLink: 'https://formzen.com/docs/useForm#error-fieldname',
+						},
+					);
 
-		const getFieldError = ((name: SchemaResolver["fieldNameEnum"]) => {
-			if (!name) throw new Error("Field name is required");
-			return formMethods.formState.errors[name]?.message;
-		}) satisfies FormContextAdditionalType<
-			SchemaResolver["fieldNameEnum"]
-		>["getFieldError"];
+				return formMethods.register(name);
+			};
 
-		const getFieldMetadata = ((name: SchemaResolver["fieldNameEnum"]) => {
-			if (!name) throw new Error("Field name is required");
-			const label = schema.shape[name].description;
-			return { label };
-		}) satisfies FormContextAdditionalType<
-			SchemaResolver["fieldNameEnum"]
-		>["getFieldMetadata"];
+		const getFieldError: FormContextAdditionalType<FieldNameEnum>['getFieldError'] =
+			(name: FieldNameEnum) => {
+				if (!name)
+					// !
+					throw new FormzenError(
+						'Field name is not valid. Use any of the following values: ...',
+						{
+							stackTrace: getFieldError,
+							cause: { code: 'NotProvided', values: [name] },
+							docsLink: 'https://formzen.com/docs/useForm#error-fieldname',
+						},
+					);
 
-		const submitHandler = async (data: SchemaResolver["data"]) => {
+				return formMethods.formState.errors[name]?.message;
+			};
+
+		const getFieldMetadata: FormContextAdditionalType<FieldNameEnum>['getFieldMetadata'] =
+			(name: FieldNameEnum) => {
+				if (!name)
+					// !
+					throw new FormzenError(
+						'Field name is not valid. Use any of the following values: ...',
+						{
+							stackTrace: getFieldMetadata,
+							cause: { code: 'NotProvided', values: [name] },
+							docsLink: 'https://formzen.com/docs/useForm#error-fieldname',
+						},
+					);
+				// const metadata = fieldMetadata.get(name);
+				const metadata = { label: 'wip' };
+				return metadata;
+			};
+
+		const submitHandler = async (data: SchemaResolver['schema']) => {
 			startTransition(async () => {
 				setIsSubmitting(true);
 
@@ -152,7 +185,7 @@ export function useForm<
 			<FormProvider
 				{...formMethods}
 				{...{
-					getFieldProperties,
+					registerField,
 					getFieldError,
 					getFieldMetadata,
 				}}
@@ -164,9 +197,11 @@ export function useForm<
 		);
 	}
 
-	const field = schemaResolver.getFieldNameEnum(schema);
-
-	const FieldComponent = {};
-
-	return { Form, isSubmitting, field, FieldComponent, ...formMethods };
+	return {
+		Form,
+		isSubmitting,
+		field: fieldNames,
+		FieldComponent,
+		...formMethods,
+	};
 }

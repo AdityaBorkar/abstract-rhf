@@ -1,4 +1,4 @@
-import { PiBookOpen, PiCodeBlock, PiFile } from "react-icons/pi";
+import { PiBookOpen, PiCodeBlock, PiFile } from 'react-icons/pi';
 
 export const examples = [
 	// Option to turn on DEVTOOLS, Code in the side, integrated with shadcn/registry
@@ -33,122 +33,273 @@ export const examples = [
 
 	// https://github.com/react-hook-form/react-hook-form/tree/master/examples
 	{
-		label: "Simple",
+		label: 'Basics',
 		items: [
 			{
-				href: "/simple",
-				label: "Simple Form",
+				href: '/simple-form',
+				label: 'Simple Form',
 			},
 			{
-				href: "/reusable",
-				label: "Reusable Form",
+				href: '/list-of-fields',
+				label: 'List of Fields',
 			},
 			{
-				href: "/modal",
-				label: "Modal Form",
+				href: '/async-validation',
+				label: 'Async Validation',
 			},
 			{
-				href: "/tab",
-				label: "Tab Form",
+				href: '/trigger-validation',
+				label: 'Trigger Validation',
+			},
+			{
+				href: '/conditional-fields',
+				label: 'Conditional Fields',
+			},
+			// ---
+			{
+				href: '/save-drafts',
+				label: 'Save Drafts',
+			},
+			{
+				href: '/update-dirty-fields',
+				label: 'Update Dirty Fields',
+			},
+			{
+				href: '/delete-form',
+				label: 'Delete Form',
+			},
+			{
+				href: '/table-action-form',
+				label: 'Table Action Form',
+			},
+			{
+				href: '/splitting-forms',
+				label: 'Splitting Forms',
+			},
+			{
+				href: '/accessibility',
+				label: 'Accessibility',
+			},
+			{
+				href: '/modal-forms',
+				label: 'Modal Forms',
+			},
+			{
+				href: '/nested-forms',
+				label: 'Nested Forms',
 			},
 		],
 	},
 	{
-		label: "Complex",
+		label: 'Use Cases',
 		items: [
 			{
-				href: "/complex",
-				label: "Complex Form",
+				href: '/signup-form',
+				label: 'Signup Form',
 			},
 			{
-				href: "/conditional",
-				label: "Conditional Form",
+				href: '/otp-form',
+				label: 'OTP Form',
+			},
+			{
+				href: '/google-translate',
+				label: 'Google Translate (EN to HI)',
+			},
+			{
+				href: '/with-components',
+				label: 'With Components',
+				// Voice Based Inputs / Media Inputs
+			},
+			{
+				href: '/ai-features',
+				label: 'AI Features',
+				// Autocomplete Suggestions AND Summarize/Generate Tags.
 			},
 		],
 	},
 	{
-		label: "With Other Libraries",
+		label: 'Advanced',
 		items: [
 			{
-				href: "/next-safe-actions",
-				label: "Next Safe Actions",
+				href: '/persisting-form-data',
+				label: 'Persisting Form Data',
 			},
 			{
-				href: "/sonner",
-				label: "Sonner",
+				href: '/react-hooks',
+				label: 'React Hooks',
+			},
+			{
+				href: '/react-context',
+				label: 'React Context',
+			},
+			{
+				href: '/multi-step-forms',
+				label: 'Multi Step Forms',
+				// with hooks for back(), next(), progress
+			},
+			{
+				href: '/field-dependent-forms',
+				label: 'Field Dependent Forms',
+			},
+			{
+				href: '/react-actions',
+				label: 'React Actions',
+			},
+			{
+				href: '/rest-endpoint',
+				label: 'REST Endpoint',
+			},
+			{
+				href: '/graphql-endpoint',
+				label: 'GraphQL Endpoint',
+			},
+			{
+				href: '/multilingual-forms',
+				label: 'Multilingual Forms',
 			},
 		],
 	},
+	{
+		label: 'Integrations',
+		items: [
+			{
+				href: '/file-uploads-using-tus',
+				label: 'File Uploads Using TUS',
+			},
+			{
+				href: '/next-safe-actions',
+				label: 'Next Safe Actions',
+			},
+			{
+				href: '/sonner',
+				label: 'Sonner',
+			},
+			{
+				href: '/zustand',
+				label: 'Zustand',
+			},
+			{
+				href: '/react-query',
+				label: 'React Query',
+			},
+			{
+				href: '/trpc',
+				label: 'TRPC',
+			},
+			{
+				href: '/google-recaptcha',
+				label: 'Google ReCAPTCHA',
+			},
+			{
+				href: '/cloudflare-turnstile',
+				label: 'Cloudflare Turnstile',
+			},
+		],
+	},
+
+	// trigger field validation
+	// https://codesandbox.io/p/sandbox/react-hook-form-trigger-validation-utih0?file=%2Fsrc%2Findex.js
+
+	// Remote handleSubmit (avoid it in most siuations)
+	// const submit = () => {
+	// 	if (formRef.current) {
+	// 		formRef.current.dispatchEvent(
+	// 			new Event('submit', { cancelable: true, bubbles: true })
+	// 		)
+	// 	}
+	// }
+
+	// disable browser validation
+	// field array, field array with dynamic fields, field array with a modal form,
+	// nested field array - array in an array
+
+	// Checkbox - atleast one checkbox must be checked
+
+	// const moreDetail = watch("moreDetail");
+	// reset on appear
+
+	// isValidating = true (validaiton)
+	// isSubmitting = true (action)
+	// isProcessing = true (total)
+
+	// ? HOW TO SPLIT FORMS AS A SINGLE STEP BUT DIFFERENT COMPONENTS WITH TYPE SAFETY.
+
+	// https://codesandbox.io/p/sandbox/react-hook-form-nested-portal-bw8m75?file=%2Fsrc%2FApp.tsx
+	// https://codesandbox.io/p/sandbox/react-hook-form-v7-customise-controller-return-value-wuhrd?file=%2Fsrc%2Findex.js%3A8%2C1
+
+	// lazy components
+	// motion animations
+	// lottie animations - send button
 ];
 
 export const docs = [
 	{
-		label: "Getting Started",
+		label: 'Getting Started',
 		items: [
 			{
-				href: "/introduction",
-				label: "Introduction",
+				href: '/introduction',
+				label: 'Introduction',
 			},
 			{
-				href: "/installation",
-				label: "Installation",
+				href: '/installation',
+				label: 'Installation',
 			},
 		],
 	},
 	{
-		label: "Basics",
+		label: 'Basics',
 		items: [
 			{
-				href: "/schema-library",
-				label: "Schema Library",
+				href: '/schema-library',
+				label: 'Schema Library',
 				// https://www.react-hook-form.com/faqs/#Howtoinitializeformvalues
 			},
 			{
-				href: "/default-values",
-				label: "Default Values",
+				href: '/default-values',
+				label: 'Default Values',
 				// https://www.react-hook-form.com/faqs/#Howtoinitializeformvalues
 			},
 			{
-				href: "/submit-resolver",
-				label: "Submit Resolver",
+				href: '/submit-resolver',
+				label: 'Submit Resolver',
 			},
 			{
-				href: "/error-handling",
-				label: "Error Handling",
+				href: '/error-handling',
+				label: 'Error Handling',
 				// https://www.react-hook-form.com/advanced-usage/#CustomHookwithResolver
 			},
 			{
-				href: "/persisting-resolver",
-				label: "Persisting Resolver",
+				href: '/persisting-resolver',
+				label: 'Persisting Resolver',
 			},
 			{
-				href: "/react-ref-id",
-				label: "React Ref & Id",
+				href: '/react-ref-id',
+				label: 'React Ref & Id',
 			},
 		],
 	},
 	{
-		label: "Integrating Components",
+		label: 'Integrating Components',
 		items: [
 			{
-				href: "/controlled-components",
-				label: "Controlled Components",
+				href: '/controlled-components',
+				label: 'Controlled Components',
 				// https://www.react-hook-form.com/advanced-usage/#ControlledmixedwithUncontrolledComponents
 			},
 			{
-				href: "/components",
-				label: "Component Library",
+				href: '/components',
+				label: 'Component Library',
 				// https://www.react-hook-form.com/advanced-usage/#SmartFormComponent
 			},
 			{
-				href: "/ui-library",
-				label: "UI Library",
+				href: '/ui-library',
+				label: 'UI Library',
 				// https://www.react-hook-form.com/get-started/#IntegratingwithUIlibraries
 			},
 		],
 	},
 	{
-		label: "Complex Forms",
+		label: 'Complex Forms',
 		items: [
 			// Dynamic Multi-step Forms: Complex conditional rendering and nested fields.
 			// Asynchronous Forms: Real-time validation with API integration.
@@ -210,49 +361,49 @@ export const docs = [
 			// Validation: Cross-field, async, and schema-based logic.
 
 			{
-				href: "/virtualized-lists",
-				label: "Virtualized Lists",
+				href: '/virtualized-lists',
+				label: 'Virtualized Lists',
 				// https://www.react-hook-form.com/advanced-usage/#Workingwithvirtualizedlists
 			},
 			{
-				href: "/ai-button",
-				label: "AI Button",
+				href: '/ai-button',
+				label: 'AI Button',
 			},
 			{
-				href: "/wizard",
-				label: "Wizard",
+				href: '/wizard',
+				label: 'Wizard',
 			},
 			{
-				href: "/funnel",
-				label: "Funnel",
+				href: '/funnel',
+				label: 'Funnel',
 			},
 		],
 	},
 	{
-		label: "Misc.",
+		label: 'Misc.',
 		items: [
 			{
-				href: "/testing",
-				label: "Testing",
+				href: '/testing',
+				label: 'Testing',
 				// https://www.react-hook-form.com/advanced-usage/#TestingForm
 			},
 			{
-				href: "/devtools",
-				label: "DevTools",
+				href: '/devtools',
+				label: 'DevTools',
 			},
 			{
-				href: "/accessibility",
-				label: "Accessibility",
+				href: '/accessibility',
+				label: 'Accessibility',
 				// https://www.react-hook-form.com/faqs/#Howtocreateanaccessibleinputerrorandmessage
 			},
 			{
-				href: "/i18n",
-				label: "Internationalization",
+				href: '/i18n',
+				label: 'Internationalization',
 				// https://www.react-hook-form.com/faqs/#Howtointernationalizeyourform
 			},
 			{
-				href: "/cursor-rules",
-				label: "Cursor Rules 🐤",
+				href: '/cursor-rules',
+				label: 'Cursor Rules 🐤',
 			},
 		],
 	},
@@ -260,11 +411,11 @@ export const docs = [
 
 export const api = [
 	{
-		label: "API Reference",
+		label: 'API Reference',
 		items: [
 			{
-				href: "/useForm",
-				label: "useForm",
+				href: '/useForm',
+				label: 'useForm',
 			},
 		],
 	},
@@ -273,20 +424,20 @@ export const api = [
 export const sections = [
 	{
 		icon: PiFile,
-		basePath: "docs",
-		label: "Documentation",
+		basePath: 'docs',
+		label: 'Documentation',
 		items: docs,
 	},
 	{
 		icon: PiBookOpen,
-		basePath: "api",
-		label: "API Reference",
+		basePath: 'api',
+		label: 'API Reference',
 		items: api,
 	},
 	{
 		icon: PiCodeBlock,
-		basePath: "examples",
-		label: "Examples",
+		basePath: 'examples',
+		label: 'Examples',
 		items: examples,
 	},
 ];

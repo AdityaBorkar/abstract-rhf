@@ -37,13 +37,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<div
 			className={cn(
-				'[--header-height:3rem] [--sidebar-width:18rem]',
-				'grid h-screen grid-cols-[var(--sidebar-width)_auto] grid-rows-[var(--header-height)_auto] bg-neutral-200/50',
+				'[--header-height:3rem] sm:[--sidebar-width:14rem] xl:[--sidebar-width:16rem] 2xl:[--sidebar-width:20rem]',
+				'grid h-screen grid-cols-[var(--sidebar-width)_auto] grid-rows-[var(--header-height)_auto] bg-neutral-200/50 transition-all',
 			)}
 		>
 			<header className="col-span-2 grid grid-cols-3 items-center justify-between border-border border-b">
 				<div className="flex w-[var(--sidebar-width)] flex-row items-center px-10">
-					<Link href="/" className="text-center font-bold text-lg">
+					<Link
+						href="/"
+						className="text-center font-bold text-lg tracking-wide"
+					>
 						formzen
 					</Link>
 					<div className="ml-3 rounded-full bg-pink-700 px-2 py-1 font-semibold text-white text-xs">

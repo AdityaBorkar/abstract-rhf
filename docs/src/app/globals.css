@@ -4,6 +4,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* TODO: Selected text color and background color */
+
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
