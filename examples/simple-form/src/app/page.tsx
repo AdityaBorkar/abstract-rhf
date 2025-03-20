@@ -2,6 +2,7 @@ import './index.css';
 
 import { useForm } from 'formzen/rhf';
 import { schemaResolver } from 'formzen/rhf/zod';
+import { Toaster, toast } from 'sonner';
 
 import { NumberInputField } from '@/components/ui/Input';
 import { $signup } from './action';
@@ -26,10 +27,20 @@ export default function App() {
 					Submit
 				</button>
 			</Form>
+			<Toaster />
 		</div>
 	);
 }
 
-async function submitResolver(data: Promise<unknown>, error: unknown) {
-	console.log(data);
+async function submitResolver(
+	response: Promise<ActionResponse>,
+	error: unknown,
+) {
+	const data = await response;
+	if (data.success === true) toast.success('Form submitted successfully');
+	else toast.error('Form submission failed');
 }
+
+type ActionResponse = {
+	success: boolean;
+};
