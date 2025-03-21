@@ -29,9 +29,8 @@ type FormSubmissionHandler<SchemaData> =
 interface useFormProps<
 	Schema extends FormSchemaEnum,
 	SchemaResolver extends Resolve_FormSchemaResolver<Schema>,
-	onSubmitType extends FormSubmissionHandler<SchemaResolver['schema']>,
 	SubmitResolver extends (
-		response: ReturnType<onSubmitType>,
+		response: ReturnType<SchemaResolver['schema']>, // !
 		error: unknown,
 	) => Promise<void>,
 > {
@@ -41,12 +40,14 @@ interface useFormProps<
 		| ((payload?: unknown) => Promise<Partial<SchemaResolver['schema']>>)
 		| DefaultValues<Partial<SchemaResolver['schema']>>
 		| undefined;
-	onSubmit: onSubmitType;
 	submitResolver: SubmitResolver;
 	schemaResolver: SchemaResolver['api'];
 	// persistenceResolver: PersistenceResolver;
 	components: {
 		text: React.ComponentType; // TODO: Add type-safety to `name`
+		// Oh, yeah, we support field-based validation as well as form validation. Mix-n-match them!
+		// debounce
+		// abort signal
 	};
 	// debug?: boolean;
 	// persist?: boolean;
@@ -55,23 +56,22 @@ interface useFormProps<
 	disableProgressiveEnhancements?: boolean;
 }
 
-interface FormProps extends ComponentProps<'form'> {
+interface FormProps<SchemaData> extends ComponentProps<'form'> {
 	// TODO: disallow `action`, `method`, `enctype`
+	onSubmit: (data: SchemaData) => Promise<unknown>;
 	children: React.ReactNode;
 }
 
 export function useForm<
 	Schema extends ZodSchema,
 	SchemaResolver extends Resolve_FormSchemaResolver<Schema>,
-	onSubmitType extends (data: SchemaResolver['schema']) => Promise<unknown>,
 	SubmitResolver extends (
-		response: ReturnType<onSubmitType>,
+		response: ReturnType<SchemaResolver['schema']>, // !
 		error: unknown,
 	) => Promise<void>,
 >({
 	// id,
 	schema,
-	onSubmit,
 	defaultValues,
 	schemaResolver,
 	submitResolver,
@@ -82,7 +82,7 @@ export function useForm<
 	// softErrors,
 	disableBrowserValidation = false,
 	disableProgressiveEnhancements = false,
-}: useFormProps<Schema, SchemaResolver, onSubmitType, SubmitResolver>) {
+}: useFormProps<Schema, SchemaResolver, SubmitResolver>) {
 	if (!schemaResolver)
 		throw new FormzenError('Missing required parameter: `schemaResolver`', {
 			stackTrace: useForm,
@@ -105,7 +105,7 @@ export function useForm<
 
 	const FieldComponent = {};
 
-	function Form({ children, ...props }: FormProps) {
+	function Form({ children, ...props }: FormProps<SchemaResolver['schema']>) {
 		// TODO: Memoize the functions
 
 		const registerField: FormContextAdditionalType<FieldNameEnum>['registerField'] =

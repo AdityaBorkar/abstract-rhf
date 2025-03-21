@@ -11,9 +11,9 @@ export function TextInputField({ name }: { name: string }) {
 	const error = getFieldError(name);
 
 	return (
-		<div>
+		<div className="mt-4 border">
 			<label htmlFor={name}>{label || ''}</label>
-			<input type="text" id={name} {...formProps} />
+			<input id={name} className="block bg-gray-800" {...formProps} />
 		</div>
 	);
 }

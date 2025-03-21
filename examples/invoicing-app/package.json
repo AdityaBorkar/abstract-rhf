@@ -1,0 +1,26 @@
+{
+	"name": "invoicing-app",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"main": "src/server/index.ts",
+	"module": "src/server/index.ts",
+	"scripts": {
+		"dev": "bun --hot src/server/index.ts",
+		"start": "NODE_ENV=production bun src/server/index.ts",
+		"build": "bun run build.ts"
+	},
+	"dependencies": {
+		"bun-plugin-tailwind": "^0.0.15",
+		"clsx": "^2.1.1",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"tailwind-merge": "^3.0.2",
+		"tailwindcss": "^4.0.14"
+	},
+	"devDependencies": {
+		"@types/bun": "^1.2.5",
+		"@types/react": "^19.0.11",
+		"@types/react-dom": "^19.0.4"
+	}
+}

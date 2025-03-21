@@ -6,7 +6,8 @@ const server = serve({
 		// Serve index.html for all unmatched routes.
 		"/*": index,
 
-		"/api/hello": {
+		// API Routes
+		"/api/submission": {
 			async GET(req) {
 				return Response.json({
 					message: "Hello, world!",
@@ -20,16 +21,10 @@ const server = serve({
 				});
 			},
 		},
-
-		"/api/hello/:name": async (req) => {
-			const name = req.params.name;
-			return Response.json({
-				message: `Hello, ${name}!`,
-			});
-		},
 	},
 
 	development: process.env.NODE_ENV !== "production",
+	port: 3001,
 });
 
 console.log(`🚀 Server running at ${server.url}`);
