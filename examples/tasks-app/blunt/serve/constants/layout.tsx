@@ -7,7 +7,7 @@
 
 import { createRoot } from 'react-dom/client';
 
-import App from './page';
+import App from '../../../src/pages/page';
 
 import './index.css';
 

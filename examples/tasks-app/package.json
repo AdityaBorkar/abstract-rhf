@@ -3,11 +3,11 @@
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
-	"main": "src/server/index.ts",
-	"module": "src/server/index.ts",
+	"main": "src/server.ts",
+	"module": "src/server.ts",
 	"scripts": {
-		"dev": "bun --hot src/server/index.ts",
-		"start": "NODE_ENV=production bun src/server/index.ts",
+		"dev": "bun --hot src/server.ts",
+		"start": "NODE_ENV=production bun src/server.ts",
 		"build": "bun run build.ts"
 	},
 	"dependencies": {

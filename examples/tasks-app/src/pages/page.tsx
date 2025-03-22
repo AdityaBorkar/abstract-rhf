@@ -1,7 +1,9 @@
+'use client';
+
 import { useForm } from 'formzen/rhf';
 import { schemaResolver } from 'formzen/rhf/zod';
 import { useRef, useState } from 'react';
-import { LuCheck, LuPlus, LuSave, LuTrash } from 'react-icons/lu';
+import { LuPlus, LuSave, LuTrash } from 'react-icons/lu';
 
 import { Button } from '@/components/button';
 import {
@@ -31,7 +33,7 @@ export default function App() {
 	const TaskDialogRef = useRef<HTMLDialogElement>(null);
 
 	const [tasks, setTasks] = useState<Task[]>(defaultTasks); // TODO: Read from Database
-	const [selectedTask, setSelectedTask] = useState<Task>(emptyTask);
+	const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
 	return (
 		<div>
@@ -48,7 +50,7 @@ export default function App() {
 					type="button"
 					className="w-full rounded-lg bg-neutral-900 py-2 text-center hover:bg-neutral-800"
 					onClick={() => {
-						setSelectedTask(emptyTask);
+						setSelectedTask(null);
 						TaskDialogRef.current?.showModal();
 					}}
 				>
@@ -78,8 +80,7 @@ export default function App() {
 									defaultChecked={task.completed}
 									onClick={(e) => {
 										e.stopPropagation();
-										// e.preventDefault();
-										// $task_markAsCompleted(task.id);
+										$task_markAsCompleted(task.id);
 									}}
 								/>
 								<div className="transition-all peer-checked:text-neutral-600 peer-checked:italic">
@@ -95,8 +96,10 @@ export default function App() {
 				ref={TaskDialogRef}
 				className="h-screen w-screen bg-transparent backdrop:h-screen backdrop:w-screen backdrop:bg-neutral-950/90 open:grid open:place-items-center"
 			>
-				{/* // ! TODO */}
-				<TaskForm type="create" defaultValues={selectedTask} />
+				<TaskForm
+					type={selectedTask ? 'update' : 'create'}
+					defaultValues={selectedTask || emptyTask}
+				/>
 			</dialog>
 		</div>
 	);
@@ -115,39 +118,23 @@ function TaskForm({
 		schemaResolver,
 	});
 
-	// ! TODO
-
-	// Field Dependents - Select Area and then the Projects
-	// TODO: Add collaborators - gmail like emails
-	// File uploads
-	// TODO: Persist data
-
 	return (
-		<Form
-			// method="dialog"
-			// autoComplete='off'
-			// action={$task_create}
-			className="mx-auto my-auto flex flex-col gap-4 rounded-lg border border-neutral-800 bg-neutral-900 px-6 py-4 text-neutral-200 shadow-lg"
-		>
-			{/* <input
-				className="w-full text-lg"
-				defaultValue="Hello World, I am Aditya Borkar and you are watching a textarea."
-			/> */}
+		<Form className="mx-auto my-auto flex flex-col gap-4 rounded-lg border border-neutral-800 bg-neutral-900 px-6 py-4 text-neutral-200 shadow-lg">
+			<input type="hidden" name="field.id" />
 			<textarea
+				autoComplete="off"
 				className="resize-hide field-sizing-content w-full max-w-sm resize-y text-lg"
 				defaultValue="Hello World, I am Aditya Borkar and you are watching a textarea."
 			/>
 
-			<input className="w-full" type="file" accept="image/*" />
-
-			<div className="mt-8 flex flex-row gap-4">
+			<div className="mt-8 flex flex-row justify-between gap-4">
 				{type === 'create' ? (
 					<Button
 						type="submit"
 						formAction={$task_create}
 						disabled={isSubmitting}
 					>
-						<LuSave className="inline-icon" />
+						<LuPlus className="inline-icon" />
 						Create Task
 					</Button>
 				) : (
@@ -168,15 +155,6 @@ function TaskForm({
 						>
 							<LuTrash className="inline-icon" />
 							Delete Task
-						</Button>
-						<Button
-							type="submit"
-							formNoValidate={true}
-							formAction={$task_markAsCompleted}
-							disabled={isSubmitting}
-						>
-							<LuCheck className="inline-icon" />
-							Mark as Completed
 						</Button>
 					</>
 				)}

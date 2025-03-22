@@ -10,8 +10,8 @@ export async function $task_delete(formData: FormData) {
 	const id = formData.get('id');
 }
 
-export async function $task_markAsCompleted(formData: FormData) {
-	const id = formData.get('id');
+export async function $task_markAsCompleted(id: string) {
+	// ...
 }
 
 export async function $task_update(formData: FormData) {
