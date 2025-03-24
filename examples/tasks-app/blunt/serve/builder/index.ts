@@ -1,4 +1,6 @@
 import { readdir } from 'node:fs/promises';
+
+import IndexHtml from '../constants/index.html';
 import { VALID_ROUTING_FILES } from './constants';
 
 // Initialize HMR handlers
@@ -55,16 +57,30 @@ import { VALID_ROUTING_FILES } from './constants';
  * Creates a file system router similar to Next.js with typesafe parameters
  */
 export async function Router({ dir }: { dir: string }) {
-	const routes: RoutesType = {};
-	function match(path: string) {
-		if (!(path in routes)) return null;
-		const files = routes[path];
-		if (!files) return null;
-		return files;
-	}
+	const files: Files = {
+		match(path: string) {
+			return null;
+		},
+	};
+	const routes: Routes = {
+		match(path: string) {
+			if (!(path in routes)) return null;
+			const files = routes[path];
+			if (!files) return null;
+			return files;
+		},
+		getAll() {
+			// Object.keys(routes).map((path) => {
+			// 	return { path, files: routes[path] };
+			// });
+			return {
+				'/*': IndexHtml,
+			};
+		},
+	};
 
-	const files = await readdir(dir, { recursive: true });
-	for (const file of files) {
+	const source_files = await readdir(dir, { recursive: true });
+	for (const file of source_files) {
 		let path = '';
 		let type = '';
 		let route = '';
@@ -82,16 +98,16 @@ export async function Router({ dir }: { dir: string }) {
 		// TODO: Catch [], [...], [[...]], (), _
 		// TODO: route.ts and page.tsx can not be in the same folder
 
-		console.log({ path, type, route });
+		// console.log({ path, type, route });
 
 		if (route in routes) {
 			routes[route].push({ path, type });
 		} else {
 			routes[route] = [{ path, type }];
 		}
-		// console.log({ isValid });
-		// console.log({ file });
+
+		files[path] = { path, type };
 	}
 
-	return { match };
+	return { files, routes };
 }

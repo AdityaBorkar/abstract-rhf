@@ -4,7 +4,7 @@
 async function updateRoute(
 	fullPath: string,
 	dir: string,
-	routes: RoutesType,
+	routes: Routes,
 	dynamicRoutes: RouteWithParams[],
 ) {
 	const relativePath = relative(dir, fullPath);

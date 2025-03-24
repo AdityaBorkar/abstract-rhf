@@ -1,12 +1,20 @@
-type RouteFiles = {
+type FileMetadata = {
 	type: 'page' | 'layout' | 'middleware' | 'template';
 	path: string;
 };
 
-type RoutesType = Record<string, RouteFiles[]>;
+type Files = {
+	[key: string]: FileMetadata;
+	match: (path: string) => FileMetadata[] | null;
+};
+
+type Routes = {
+	[key: string]: FileMetadata[];
+	match: (path: string) => FileMetadata[] | null;
+	getAll: () => { path: string; files: FileMetadata[] }[];
+};
 
 interface RouterInstance {
-	routes: RoutesType;
-	// getServer: (options?: { port?: number; development?: boolean }) => Server;
-	// match: (path: string) => { handler: RouteFiles; params?: RouteParams } | null;
+	files: Files;
+	routes: Routes;
 }

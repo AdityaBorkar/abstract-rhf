@@ -3,25 +3,25 @@
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
-	"main": "src/server.ts",
-	"module": "src/server.ts",
 	"scripts": {
-		"dev": "bun --hot src/server.ts",
-		"start": "NODE_ENV=production bun src/server.ts",
-		"build": "bun run build.ts"
+		"dev": "bun --hot server.ts",
+		"start": "bun ./blunt/serve/index.ts --dir=./.build",
+		"build": "bun ./blunt/build/index.ts --out=./.build"
 	},
 	"dependencies": {
+		"add": "^2.0.6",
+		"bun": "^1.2.5",
 		"bun-plugin-tailwind": "^0.0.15",
 		"clsx": "^2.1.1",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-icons": "^5.5.0",
 		"tailwind-merge": "^3.0.2",
-		"tailwindcss": "^4.0.14"
+		"tailwindcss": "^4.0.15"
 	},
 	"devDependencies": {
 		"@types/bun": "^1.2.5",
-		"@types/react": "^19.0.11",
+		"@types/react": "^19.0.12",
 		"@types/react-dom": "^19.0.4"
 	}
 }

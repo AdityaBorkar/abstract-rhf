@@ -1,7 +1,7 @@
 'use client';
 
-import { useForm } from 'formzen/rhf';
-import { schemaResolver } from 'formzen/rhf/zod';
+// import { useForm } from 'formzen/rhf';
+// import { schemaResolver } from 'formzen/rhf/zod';
 import { useRef, useState } from 'react';
 import { LuPlus, LuSave, LuTrash } from 'react-icons/lu';
 
@@ -96,69 +96,70 @@ export default function App() {
 				ref={TaskDialogRef}
 				className="h-screen w-screen bg-transparent backdrop:h-screen backdrop:w-screen backdrop:bg-neutral-950/90 open:grid open:place-items-center"
 			>
-				<TaskForm
+				OK
+				{/* <TaskForm
 					type={selectedTask ? 'update' : 'create'}
 					defaultValues={selectedTask || emptyTask}
-				/>
+				/> */}
 			</dialog>
 		</div>
 	);
 }
 
-function TaskForm({
-	type,
-	defaultValues,
-}: {
-	type: 'create' | 'update';
-	defaultValues: Task;
-}) {
-	const { Form, isSubmitting } = useForm({
-		schema,
-		defaultValues,
-		schemaResolver,
-	});
+// function TaskForm({
+// 	type,
+// 	defaultValues,
+// }: {
+// 	type: 'create' | 'update';
+// 	defaultValues: Task;
+// }) {
+// 	const { Form, isSubmitting } = useForm({
+// 		schema,
+// 		defaultValues,
+// 		schemaResolver,
+// 	});
 
-	return (
-		<Form className="mx-auto my-auto flex flex-col gap-4 rounded-lg border border-neutral-800 bg-neutral-900 px-6 py-4 text-neutral-200 shadow-lg">
-			<input type="hidden" name="field.id" />
-			<textarea
-				autoComplete="off"
-				className="resize-hide field-sizing-content w-full max-w-sm resize-y text-lg"
-				defaultValue="Hello World, I am Aditya Borkar and you are watching a textarea."
-			/>
+// 	return (
+// 		<Form className="mx-auto my-auto flex flex-col gap-4 rounded-lg border border-neutral-800 bg-neutral-900 px-6 py-4 text-neutral-200 shadow-lg">
+// 			<input type="hidden" name="field.id" />
+// 			<textarea
+// 				autoComplete="off"
+// 				className="resize-hide field-sizing-content w-full max-w-sm resize-y text-lg"
+// 				defaultValue="Hello World, I am Aditya Borkar and you are watching a textarea."
+// 			/>
 
-			<div className="mt-8 flex flex-row justify-between gap-4">
-				{type === 'create' ? (
-					<Button
-						type="submit"
-						formAction={$task_create}
-						disabled={isSubmitting}
-					>
-						<LuPlus className="inline-icon" />
-						Create Task
-					</Button>
-				) : (
-					<>
-						<Button
-							type="submit"
-							formAction={$task_update}
-							disabled={isSubmitting}
-						>
-							<LuSave className="inline-icon" />
-							Update Task
-						</Button>
-						<Button
-							type="submit"
-							formNoValidate={true}
-							formAction={$task_delete}
-							disabled={isSubmitting}
-						>
-							<LuTrash className="inline-icon" />
-							Delete Task
-						</Button>
-					</>
-				)}
-			</div>
-		</Form>
-	);
-}
+// 			<div className="mt-8 flex flex-row justify-between gap-4">
+// 				{type === 'create' ? (
+// 					<Button
+// 						type="submit"
+// 						formAction={$task_create}
+// 						disabled={isSubmitting}
+// 					>
+// 						<LuPlus className="inline-icon" />
+// 						Create Task
+// 					</Button>
+// 				) : (
+// 					<>
+// 						<Button
+// 							type="submit"
+// 							formAction={$task_update}
+// 							disabled={isSubmitting}
+// 						>
+// 							<LuSave className="inline-icon" />
+// 							Update Task
+// 						</Button>
+// 						<Button
+// 							type="submit"
+// 							formNoValidate={true}
+// 							formAction={$task_delete}
+// 							disabled={isSubmitting}
+// 						>
+// 							<LuTrash className="inline-icon" />
+// 							Delete Task
+// 						</Button>
+// 					</>
+// 				)}
+// 			</div>
+// 		</Form>
+// 	);
+// }

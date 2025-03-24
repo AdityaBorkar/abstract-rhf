@@ -4,7 +4,7 @@
 async function loadRoutes(
 	files: string[],
 	dir: string,
-	routes: RoutesType,
+	routes: Routes,
 	dynamicRoutes: RouteWithParams[],
 ) {
 	// Clear existing routes
@@ -38,8 +38,8 @@ async function loadRoutes(
  */
 function registerDynamicRoute(
 	segments: string[],
-	handler: RouteFiles,
-	routes: RoutesType,
+	handler: FileMetadata,
+	routes: Routes,
 	dynamicRoutes: RouteWithParams[],
 	originalPath: string,
 ) {
@@ -92,7 +92,7 @@ function registerDynamicRoute(
  * Create a request handler function for Bun.serve
  */
 function createRequestHandler(
-	routes: RoutesType,
+	routes: Routes,
 	dynamicRoutes: RouteWithParams[],
 ) {
 	return async (req: Request) => {
@@ -120,7 +120,7 @@ function createRequestHandler(
 
 	function match(
 		path: string,
-	): { handler: RouteFiles; params?: RouteParams } | null {
+	): { handler: FileMetadata; params?: RouteParams } | null {
 		// First check static routes (faster)
 		const normalizedPath =
 			path === '/' ? '/' : path.endsWith('/') ? path.slice(0, -1) : path;

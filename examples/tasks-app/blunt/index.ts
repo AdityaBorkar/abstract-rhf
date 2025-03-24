@@ -1,9 +1,15 @@
 export * from './serve';
 
+// * Register CLI commands
+// dev
+// start
+// build
+
 // * Explore:
 // use() hook works OOTB
 // metadata? sitemaps?
 // headers, cookies, redirects, middlewares
+// React Server Components
 // SSR, SSG, ISR, getStaticProps replaced generateStaticSlugs, getServerSideProps, SPA, MPA
 // public folder
 // manifest.json.ts
@@ -16,7 +22,10 @@ export * from './serve';
 // Font Optimization: https://bun.sh/docs/api/html-rewriter
 // Script Optimization: https://bun.sh/docs/api/html-rewriter
 // Streaming, Partial Prerendering
-// Parallel and Intercepted Routes
 // https://bun.sh/docs/bundler/plugins
 // https://bun.sh/docs/api/ffi
 // Cache Support. Everything is dynamic by default.
+
+// Following features are NOT PLANNED:
+// Parallel and Intercepted Routes
+// Draft Mode, Multi-Zone Deployments

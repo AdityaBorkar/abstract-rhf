@@ -16,9 +16,3 @@ export const VALID_TOP_LEVEL_FILES = [
 	'unauthorized.tsx',
 	'forbidden.tsx',
 ];
-
-export const MANDATORY_FILES = [
-	'./layout.tsx',
-	'./not-found.tsx',
-	'./page.tsx',
-];
