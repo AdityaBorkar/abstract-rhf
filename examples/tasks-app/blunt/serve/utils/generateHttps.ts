@@ -1,4 +1,4 @@
-export async function generateFiles() {
+export async function generateHttps() {
 	// TODO: Generate
 	const keyFile = undefined;
 	const certFile = undefined;

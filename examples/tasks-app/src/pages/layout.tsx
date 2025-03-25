@@ -12,5 +12,6 @@ export default function RootLayout({
 	// 	<title>Tasks App</title>
 	// </head>
 	// */}
-	return <body>{children}</body>;
+	console.log('RootLayout');
+	return <div>{children}</div>;
 }

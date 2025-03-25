@@ -1,19 +1,15 @@
 import { createRoot, hydrateRoot } from 'react-dom/client';
 
-import { jsx } from '../builder/jsx';
+import { jsx } from './jsx';
 
 function start() {
 	const element = document.getElementById('root');
 	if (!element) return;
 
-	// window.implementSsr = true;
-	const implementSsr = true;
-
-	if (implementSsr) {
+	if (window.SSR) {
 		hydrateRoot(element, jsx);
 	} else {
-		const root = createRoot(element);
-		root.render(jsx);
+		createRoot(element).render(jsx);
 	}
 }
 

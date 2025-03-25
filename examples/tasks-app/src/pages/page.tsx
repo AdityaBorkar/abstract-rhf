@@ -6,14 +6,14 @@ import { useRef, useState } from 'react';
 import { LuPlus, LuSave, LuTrash } from 'react-icons/lu';
 
 import { Button } from '@/components/button';
+import { schema } from '../lib/schema';
+import { defaultTasks } from '../lib/store';
 import {
 	$task_create,
 	$task_delete,
 	$task_markAsCompleted,
 	$task_update,
 } from './action';
-import { schema } from './schema';
-import { defaultTasks } from './store';
 
 interface Task {
 	id: number;

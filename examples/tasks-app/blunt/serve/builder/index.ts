@@ -1,6 +1,8 @@
+import type { FileMetadata, Files, Routes } from '#/blunt/types';
+
 import { readdir } from 'node:fs/promises';
 
-import IndexHtml from '../constants/index.html';
+import IndexHtml from '../../constants/index.html';
 import { VALID_ROUTING_FILES } from './constants';
 
 // Initialize HMR handlers
@@ -56,28 +58,25 @@ import { VALID_ROUTING_FILES } from './constants';
 /**
  * Creates a file system router similar to Next.js with typesafe parameters
  */
+// ! WORK ON ROUTER AND TS SUPPORT. BUILD AHEAD OF TIME.
 export async function Router({ dir }: { dir: string }) {
 	const files: Files = {
 		match(path: string) {
-			return null;
+			const file = files[path];
+			if (!file) return null;
+			return file;
 		},
 	};
 	const routes: Routes = {
 		match(path: string) {
-			if (!(path in routes)) return null;
+			if (!(path in routes)) return [] as FileMetadata[];
 			const files = routes[path];
-			if (!files) return null;
+			if (!files) return [] as FileMetadata[];
 			return files;
 		},
-		getAll() {
-			// Object.keys(routes).map((path) => {
-			// 	return { path, files: routes[path] };
-			// });
-			return {
-				'/*': IndexHtml,
-			};
-		},
 	};
+
+	// TODO: Generate Files and Types based on the files being read.
 
 	const source_files = await readdir(dir, { recursive: true });
 	for (const file of source_files) {
@@ -108,6 +107,8 @@ export async function Router({ dir }: { dir: string }) {
 
 		files[path] = { path, type };
 	}
+
+	console.log({ files, routes });
 
 	return { files, routes };
 }

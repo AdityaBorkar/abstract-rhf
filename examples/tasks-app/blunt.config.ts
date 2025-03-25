@@ -1,20 +1,26 @@
-interface BluntConfig {
-	ssr?: boolean; // default: false
-	ppr?: boolean; // default: false
-	spa?: boolean; // default: false
-	pages?: {
-		include?: string[];
-		exclude?: string[];
-	};
-}
+// import type { BluntGlobalConfig } from './blunt/types';
 
-const config: BluntConfig = {
+// const config: BluntGlobalConfig = {
+// 	ssr: true,
+// 	streaming: true,
+// 	timeout: 60,
+// 	// pages: {
+// 	// 	include: ['**/src/pages/*.tsx'],
+// 	// 	exclude: ['**/~*', '**/components/*'],
+// 	// },
+// };
+
+// export default config;
+
+export default {
 	ssr: true,
-	ppr: true,
-	// pages: {
-	// 	include: ['**/src/pages/*.tsx'],
-	// 	exclude: ['**/~*', '**/components/*'],
-	// },
-};
+	streaming: true,
+	timeout: 60,
+	ppr: false,
 
-export default config;
+	pages: {
+		include: ['**/src/pages/*.tsx'],
+		exclude: ['**/~*', '**/components/*'],
+	},
+	botDetection: true,
+} as const;

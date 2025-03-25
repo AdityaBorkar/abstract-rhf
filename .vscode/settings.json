@@ -1,5 +1,5 @@
 {
-	"cSpell.words": ["formzen", "Superstruct", "Valibot"],
+	"cSpell.words": ["BLUNTJS", "formzen", "Superstruct", "Valibot"],
 	"editor.codeActionsOnSave": {
 		"source.fixAll.biome": "explicit",
 		"source.organizeImports.biome": "explicit"
